@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>RUN ZONES</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101827;color:#f1f5f9;font-family:Arial,sans-serif}
+header{background:#172338;padding:22px 16px;border-bottom:2px solid #34d399}
+header h1{margin:0;color:#34d399;font-size:29px}
+header p{margin:7px 0 0;color:#cbd5e1}
+nav{display:flex;overflow:auto;background:#172338;gap:5px;padding:10px}
+nav button{flex:1;min-width:max-content}
+button{background:#26364d;color:white;border:0;border-radius:9px;padding:12px;cursor:pointer;font-weight:bold}
+button.active,.primary{background:#059669}
+main{padding:15px;max-width:850px;margin:auto}
+section{display:none}
+section.active{display:block}
+.card{background:#1b293d;border:1px solid #34445b;border-radius:14px;padding:16px;margin-bottom:15px}
+h2{color:#34d399;font-size:21px;margin-top:0}
+h3{font-size:16px}
+label{display:block;color:#cbd5e1;margin:13px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #52647a;background:#101827;color:white;border-radius:8px;font-size:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.small{font-size:13px;color:#aab8ca;line-height:1.5}
+.result{font-size:22px;font-weight:bold;color:#34d399;margin:12px 0}
+table{width:100%;border-collapse:collapse}
+td,th{padding:9px 5px;border-bottom:1px solid #34445b;text-align:left}
+.kmrow{display:grid;grid-template-columns:55px 1fr 1fr;gap:7px;align-items:center;margin:8px 0}
+.kmrow input{min-width:0;padding:10px}
+.kmrow span{font-size:14px}
+.danger{background:#9f303b}
+footer{text-align:center;padding:25px;color:#94a3b8;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+<h1>🏃 RUN ZONES</h1>
+<p>Entrena con inteligencia. Supera tus marcas.</p>
+</header>
+<nav>
+<button class="active" onclick="show('zonas',this)">Zonas</button>
+<button onclick="show('plan',this)">Plan por km</button>
+<button onclick="show('marcas',this)">Mis marcas</button>
+<button onclick="show('historial',this)">Historial</button>
+<button onclick="show('reloj',this)">Reloj</button>
+</nav>
+<main>
+<section id="zonas" class="active">
+<div class="card">
+<h2>Calculadora de zonas</h2>
+<p class="small">Ingresa una marca reciente para estimar ritmos. La frecuencia cardíaca máxima y de reposo permiten estimar zonas de pulso.</p>
+<label>Distancia de tu marca</label>
+<select id="dist">
+<option value="5">5 kilómetros</option>
+<option value="10" selected>10 kilómetros</option>
+<option value="21.0975">Media maratón</option>
+<option value="42.195">Maratón</option>
+</select>
+<div class="grid">
+<div><label>Tiempo (minutos)</label><input id="mins" type="number" value="51" min="1"></div>
+<div><label>Segundos adicionales</label><input id="secs" type="number" value="0" min="0" max="59"></div>
+<div><label>FC máxima (lpm)</label><input id="fcmax" type="number" placeholder="Ej. 185"></div>
+<div><label>FC reposo (lpm)</label><input id="fcrest" type="number" placeholder="Ej. 60"></div>
+</div>
+<button class="primary" style="width:100%;margin-top:16px" onclick="calcZones()">Calcular zonas</button>
+<div id="zoneout"></div>
+<p class="small">Los ritmos son estimaciones orientativas basadas en una marca de carrera. Las zonas de pulso usan porcentajes de reserva cardíaca cuando ingresas ambos valores. No sustituyen una prueba fisiológica.</p>
+</div>
+</section>
+
+<section id="plan">
+<div class="card">
+<h2>Planificador por kilómetro</h2>
+<label>Distancia de carrera</label>
+<select id="race" onchange="makeKm()">
+<option value="5">5K</option>
+<option value="10" selected>10K</option>
+<option value="21">21K</option>
+<option value="42">42K</option>
+</select>
+<p class="small">Escribe el ritmo deseado para cada kilómetro en formato minutos:segundos. Ejemplo: 5:10. Los campos parten vacíos.</p>
+<div id="kms"></div>
+<button class="primary" style="width:100%;margin-top:12px" onclick="calcPlan()">Calcular tiempo total</button>
+<div id="planout" class="result"></div>
+<button onclick="savePlan()">Guardar plan</button>
+</div>
+</section>
+
+<section id="marcas">
+<div class="card">
+<h2>Mis marcas personales</h2>
+<label>Distancia</label>
+<select id="mdist">
+<option value="5">5K</option><option value="10">10K</option>
+<option value="21.0975">21K</option><option value="42.195">42K</option>
+</select>
+<div class="grid">
+<div><label>Minutos</label><input id="mmin" type="number" min="0" placeholder="25"></div>
+<div><label>Segundos</label><input id="msec" type="number" min="0" max="59" placeholder="0"></div>
+</div>
+<label>Fecha</label><input id="mdate" type="date">
+<label>Observación (opcional)</label><input id="mnote" placeholder="Ej. Carrera o entrenamiento">
+<button class="primary" style="width:100%;margin-top:14px" onclick="saveMark()">Guardar marca</button>
+</div>
+<div id="personal" class="card"></div>
+</section>
+
+<section id="historial">
+<div class="card">
+<h2>Historial de rendimiento</h2>
+<div id="history"></div>
+<button class="danger" onclick="clearHistory()">Borrar todo el historial</button>
+<p class="small">Los datos se guardan en este navegador. Si borras sus datos o cambias de dispositivo, podrías perderlos.</p>
+</div>
+</section>
+
+<section id="reloj">
+<div class="card">
+<h2>Vincular reloj</h2>
+<p>Esta versión todavía no dispone de conexión automática con Garmin, Apple Watch u otros relojes.</p>
+<p class="small">Puedes registrar manualmente tus marcas. La sincronización real requiere integrar las API y autorizaciones correspondientes.</p>
+<label>Modelo de reloj</label>
+<select id="watch">
+<option>Garmin</option><option>Apple Watch</option>
+<option>Coros</option><option>Polar</option><option>Otro</option>
+</select>
+<button class="primary" style="margin-top:12px" onclick="localStorage.setItem('rzwatch',document.getElementById('watch').value);alert('Preferencia guardada en este dispositivo')">Guardar preferencia</button>
+</div>
+</section>
+</main>
+<footer>RUN ZONES · Tu entrenamiento, tus objetivos.</footer>
+<script>
+function show(id,btn){
+document.querySelectorAll('main section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+if(id==='historial')renderHistory();
+if(id==='marcas')renderMarks();
+}
+function pace(sec){
+let m=Math.floor(sec/60),s=Math.round(sec%60);
+if(s===60){m++;s=0}
+return m+':'+String(s).padStart(2,'0');
+}
+function calcZones(){
+let d=+document.getElementById('dist').value;
+let t=(+document.getElementById('mins').value*60)+(+document.getElementById('secs').value);
+if(t<=0){alert('Ingresa un tiempo válido');return}
+let p=t/d, v=d===5?1.07:d===10?1.0:d<22?.94:.88;
+let names=['Z1 · Recuperación','Z2 · Suave','Z3 · Aeróbica','Z4 · Umbral','Z5 · Intensa'];
+let factors=[1.35,1.22,1.12,1.04,.90];
+let out='<h3>Ritmos estimados por kilómetro</h3><table><tr><th>Zona</th><th>Ritmo min/km</th></tr>';
+names.forEach((n,i)=>out+='<tr><td>'+n+'</td><td>'+pace(p*factors[i]*v)+'</td></tr>');
+out+='</table>';
+let mx=+document.getElementById('fcmax').value, rest=+document.getElementById('fcrest').value;
+if(mx>rest&&rest>0){
+out+='<h3>Zonas de frecuencia cardíaca (reserva)</h3><table><tr><th>Zona</th><th>Latidos/min</th></tr>';
+[[.5,.6],[.6,.7],[.7,.8],[.8,.9],[.9,1]].forEach((a,i)=>{
+let lo=Math.round(rest+(mx-rest)*a[0]),hi=Math.round(rest+(mx-rest)*a[1]);
+out+='<tr><td>'+names[i]+'</td><td>'+lo+'–'+hi+'</td></tr>';
+});
+out+='</table>';
+}else out+='<p class="small">Ingresa FC máxima y de reposo para calcular zonas de pulso.</p>';
+document.getElementById('zoneout').innerHTML=out;
+}
+function makeKm(){
+let n=+document.getElementById('race').value,html='';
+for(let i=1;i<=n;i++)html+='<div class="kmrow"><span>Km '+i+'</span><input id="pace'+i+'" placeholder="5:10" aria-label="Ritmo km '+i+'"><span id="sum'+i+'">—</span></div>';
+document.getElementById('kms').innerHTML=html;
+document.getElementById('planout').textContent='';
+}
+function readPace(s){
+if(!/^\d{1,2}:[0-5]\d$/.test(s.trim()))return null;
+let a=s.split(':').map(Number);return a[0]*60+a[1];
+}
+function calcPlan(){
+let n=+document.getElementById('race').value,total=0,missing=0;
+for(let i=1;i<=n;i++){
+let v=document.getElementById('pace'+i).value.trim(),s=v?readPace(v):null;
+if(s===null){missing++;document.getElementById('sum'+i).textContent='Pendiente'}
+else{total+=s;document.getElementById('sum'+i).textContent=pace(s)}
+}
+document.getElementById('planout').textContent=missing?'Faltan '+missing+' ritmos por completar. Suma parcial: '+pace(total):'Tiempo objetivo: '+Math.floor(total/3600)+':'+String(Math.floor(total%3600/60)).padStart(2,'0')+':'+String(total%60).padStart(2,'0');
+}
+function getData(){try{return JSON.parse(localStorage.getItem('rzmarks')||'[]')}catch(e){return []}}
+function saveMark(){
+let d=document.getElementById('mdist').value,m=+document.getElementById('mmin').value,s=+document.getElementById('msec').value;
+if(document.getElementById('mmin').value===''||m<0||s<0||s>59){alert('Ingresa un tiempo válido');return}
+let arr=getData();
+arr.push({id:Date.now(),d:+d,t:m*60+s,date:document.getElementById('mdate').value||new Date().toISOString().slice(0,10),note:document.getElementById('mnote').value});
+localStorage.setItem('rzmarks',JSON.stringify(arr));
+renderMarks();renderHistory();alert('Marca guardada');
+}
+function savePlan(){
+let n=+document.getElementById('race').value,vals=[];
+for(let i=1;i<=n;i++)vals.push(document.getElementById('pace'+i).value);
+localStorage.setItem('rzplan',JSON.stringify({n,vals}));
+alert('Plan guardado en este dispositivo');
+}
+function renderMarks(){
+let a=getData(),html='<h2>Récords personales</h2>';
+[5,10,21.0975,42.195].forEach(d=>{
+let list=a.filter(x=>x.d===d).sort((x,y)=>x.t-y.t);
+html+='<p><b>'+({5:'5K',10:'10K',21.0975:'Media maratón',42.195:'Maratón'}[d])+'</b>: '+(list.length?pace(list[0].t):'Sin marca')+'</p>';
+});
+document.getElementById('personal').innerHTML=html;
+}
+function renderHistory(){
+let a=getData().sort((x,y)=>y.id-x.id),html='<table><tr><th>Fecha</th><th>Distancia</th><th>Tiempo</th><th></th></tr>';
+a.forEach(x=>html+='<tr><td>'+x.date+'</td><td>'+x.d+'K</td><td>'+pace(x.t)+'</td><td><button onclick="editMark('+x.id+')">Editar</button> <button class="danger" onclick="deleteMark('+x.id+')">X</button></td></tr>');
+document.getElementById('history').innerHTML=html+'</table>';
+}
+function editMark(id){
+let a=getData(),x=a.find(z=>z.id===id);if(!x)return;
+let v=prompt('Nuevo tiempo minutos:segundos',pace(x.t));if(v===null)return;
+let t=readPace(v);if(t===null){alert('Usa formato 25:30');return}
+x.t=t;let date=prompt('Fecha YYYY-MM-DD',x.date);if(date!==null&&/^\d{4}-\d{2}-\d{2}$/.test(date))x.date=date;
+localStorage.setItem('rzmarks',JSON.stringify(a));renderHistory();renderMarks();
+}
+function deleteMark(id){
+if(!confirm('¿Eliminar esta marca?'))return;
+localStorage.setItem('rzmarks',JSON.stringify(getData().filter(x=>x.id!==id)));renderHistory();renderMarks();
+}
+function clearHistory(){
+if(confirm('¿Borrar todas las marcas guardadas?')){localStorage.removeItem('rzmarks');renderHistory();renderMarks()}
+}
+makeKm();renderMarks();renderHistory();
+document.getElementById('watch').value=localStorage.getItem('rzwatch')||'Garmin';
+document.getElementById('mdate').value=new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>
