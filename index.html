@@ -1,237 +1,435 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101827">
-<title>RUN ZONES</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08090d">
+<title>JOTARUNN — Negro & Naranja</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#101827;color:#f1f5f9;font-family:Arial,sans-serif}
-header{background:#172338;padding:22px 16px;border-bottom:2px solid #34d399}
-header h1{margin:0;color:#34d399;font-size:29px}
-header p{margin:7px 0 0;color:#cbd5e1}
-nav{display:flex;overflow:auto;background:#172338;gap:5px;padding:10px}
-nav button{flex:1;min-width:max-content}
-button{background:#26364d;color:white;border:0;border-radius:9px;padding:12px;cursor:pointer;font-weight:bold}
-button.active,.primary{background:#059669}
-main{padding:15px;max-width:850px;margin:auto}
-section{display:none}
-section.active{display:block}
-.card{background:#1b293d;border:1px solid #34445b;border-radius:14px;padding:16px;margin-bottom:15px}
-h2{color:#34d399;font-size:21px;margin-top:0}
-h3{font-size:16px}
-label{display:block;color:#cbd5e1;margin:13px 0 6px}
-input,select{width:100%;padding:12px;border:1px solid #52647a;background:#101827;color:white;border-radius:8px;font-size:16px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.small{font-size:13px;color:#aab8ca;line-height:1.5}
-.result{font-size:22px;font-weight:bold;color:#34d399;margin:12px 0}
-table{width:100%;border-collapse:collapse}
-td,th{padding:9px 5px;border-bottom:1px solid #34445b;text-align:left}
-.kmrow{display:grid;grid-template-columns:55px 1fr 1fr;gap:7px;align-items:center;margin:8px 0}
-.kmrow input{min-width:0;padding:10px}
-.kmrow span{font-size:14px}
-.danger{background:#9f303b}
-footer{text-align:center;padding:25px;color:#94a3b8;font-size:12px}
+:root{--bg:#0b1020;--panel:#151e30;--panel2:#202c40;--line:#2d3a50;--text:#f7f9fc;--muted:#a9b6ca;--lime:#b8ff35;--blue:#4b9cff;--orange:#ff914d;--purple:#a78bfa}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#111a2c 0%,var(--bg) 50%);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);min-height:100vh}
+.app{max-width:760px;margin:auto;padding:18px 15px 92px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.brand{font-weight:950;letter-spacing:-1px;font-size:25px;font-style:italic}.brand span{color:var(--lime)}.tag{color:var(--muted);font-size:11px;letter-spacing:1.7px;margin-top:2px}.avatar{border:1px solid var(--line);border-radius:50%;width:42px;height:42px;display:grid;place-items:center;background:var(--panel);font-size:20px}
+h1{font-size:27px;line-height:1.1;margin:8px 0}h2{font-size:19px;margin:0 0 12px}p{color:var(--muted);line-height:1.45}.hero{background:radial-gradient(circle at 90% 0%,#542400 0,transparent 42%),linear-gradient(135deg,#21150e,#131316);border:1px solid #35435a;border-radius:24px;padding:20px;position:relative;overflow:hidden}.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.3px;color:var(--lime);text-transform:uppercase}.hero h1{max-width:440px}.race-meta{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0}.pill{background:#29384d;border:1px solid #3a4b64;border-radius:999px;padding:7px 10px;font-size:12px;color:#e7edf7}.countdown{display:flex;gap:8px;margin:15px 0}.count{flex:1;text-align:center;background:#0c1321b8;border:1px solid #34445c;border-radius:13px;padding:10px 5px}.count strong{font-size:25px;display:block}.count small{font-size:10px;color:var(--muted);text-transform:uppercase}.goal{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#0c1321b8;border-radius:16px;padding:14px;margin-top:14px}.goal small{color:var(--muted)}.goal strong{display:block;color:var(--lime);font-size:30px;line-height:1.2}.goal .cup{font-size:30px}.official-box{margin-top:12px;padding:14px;border-radius:16px;border:1px solid #ff8a00;background:linear-gradient(135deg,#20140a,#111);}.official-label{font-size:10px;font-weight:900;letter-spacing:1px;color:#ff9a24}.official-name{font-weight:800;margin:6px 0 10px}.official-btn{display:inline-block;text-decoration:none;background:#ff8a00;color:#17100a;padding:10px 14px;border-radius:10px;font-weight:900}.btn{border:0;border-radius:13px;padding:13px 16px;font-weight:850;background:var(--lime);color:#17200c;cursor:pointer;font-size:14px}.btn.secondary{background:#27364b;color:var(--text);border:1px solid #3b4c65}.btn.full{width:100%;margin-top:10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:17px 0}.tile{border:1px solid var(--line);background:var(--panel);border-radius:17px;padding:15px;cursor:pointer;text-align:left;color:var(--text);min-height:112px}.tile .emoji{font-size:25px;display:block;margin-bottom:10px}.tile strong{display:block;font-size:15px}.tile small{display:block;color:var(--muted);margin-top:5px;line-height:1.3}.section{display:none}.section.active{display:block}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}.row{display:flex;gap:10px;align-items:center}.row>*{flex:1;min-width:0}label{font-size:12px;color:var(--muted);display:block;margin:12px 0 6px}input,select{width:100%;background:#0e1625;border:1px solid #34435a;border-radius:11px;padding:12px;color:var(--text);font-size:15px}input:focus,select:focus{outline:2px solid var(--orange)}.switch{display:flex;background:#0d1524;border:1px solid var(--line);padding:4px;border-radius:14px;gap:4px}.switch button{flex:1;border:0;border-radius:10px;background:transparent;color:var(--muted);padding:11px 7px;font-weight:800;cursor:pointer}.switch button.active{background:var(--lime);color:#17200c}.zone{display:flex;align-items:center;gap:10px;padding:12px;border-radius:13px;background:#202b3e;margin:8px 0}.zbadge{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:#07101a;font-weight:950}.zone .desc{flex:1}.zone .desc strong{display:block}.zone .desc small{color:var(--muted)}.zone .pace{font-weight:850;font-variant-numeric:tabular-nums;font-size:14px;text-align:right}.nav{position:fixed;bottom:0;left:0;right:0;background:#0a0f1ceF;backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:5;padding:8px 5px calc(8px + env(safe-area-inset-bottom))}.navinner{width:min(760px,100%);display:flex;justify-content:flex-start;overflow-x:auto;gap:5px;scrollbar-width:none}.navinner::-webkit-scrollbar{display:none}.nav button{background:none;border:0;color:var(--muted);font-size:10px;min-width:58px;flex:0 0 auto;cursor:pointer;padding:5px}.nav button span{display:block;font-size:20px;margin-bottom:3px}.nav button.active{color:var(--lime)}.raceitem{display:flex;gap:12px;align-items:center}.datebox{background:#27364a;border-radius:12px;padding:9px;text-align:center;min-width:54px}.datebox strong{display:block;font-size:19px}.datebox small{font-size:10px;color:var(--muted)}.raceitem .info{flex:1}.raceitem .info strong{display:block}.raceitem .info small{display:block;color:var(--muted);margin-top:4px}.tiny{font-size:11px;color:var(--muted)}.empty{padding:22px;text-align:center;border:1px dashed #40516a;border-radius:15px;color:var(--muted)}.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--lime);color:#15200a;padding:11px 16px;border-radius:12px;font-weight:800;display:none;z-index:10;max-width:90%;box-shadow:0 8px 30px #0008}.footnote{font-size:11px;color:#8f9eb4;line-height:1.4}@media(min-width:600px){.app{padding-top:25px}.hero{padding:25px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* JOTARUNN: base negra y naranja; acentos vivos diferenciados por sección */
+:root{--bg:#08090d;--panel:#15161c;--panel2:#20222b;--line:#30313b;--text:#fff;--muted:#b5b7c5;--lime:#ff8a00;--blue:#35c9ff;--orange:#ff6b00;--purple:#c084fc}
+body{background:radial-gradient(ellipse at 10% 0%,#321600 0%,transparent 32%),linear-gradient(180deg,#111114 0%,#07080b 58%);}
+.brand span{color:#ff8a00}.avatar{background:linear-gradient(135deg,#ff8a00,#ff3d00);border:0;box-shadow:0 0 22px #ff6b0066}
+.btn{background:linear-gradient(135deg,#ffb000,#ff5a00);color:#1a0c00;box-shadow:0 5px 18px #ff6b0022}
+.btn.secondary{background:#24242c;color:#fff;border:1px solid #454550;box-shadow:none}
+.hero{background:radial-gradient(circle at 95% 0%,#ff7a0038 0,transparent 38%),linear-gradient(135deg,#21150f,#111116 72%);border-color:#82400f;box-shadow:0 12px 35px #0006}
+.eyebrow{color:#ff9c32}.goal strong{color:#ffad42}.pill{background:#272027;border-color:#54331e}
+.card{background:linear-gradient(145deg,#191a21,#121318);border-color:#34343e;box-shadow:0 8px 24px #0003}
+.tile{background:linear-gradient(145deg,#20212a,#14151a);border-color:#3b3b47;transition:transform .15s,border-color .15s,box-shadow .15s}
+.tile:active{transform:scale(.98)}
+input:focus,select:focus{outline:2px solid #ff8a00}
+.switch button.active{background:linear-gradient(135deg,#ffb000,#ff5a00);color:#1a0c00}
+.nav{background:#09090df2;border-top-color:#393039}.nav button.active{color:#ff9a2f}
+/* Cada función tiene su propio acento para distinguir el paso de la app */
+#home .eyebrow{color:#ff9d2e}#home .tile:nth-child(1){border-top:3px solid #c084fc}#home .tile:nth-child(2){border-top:3px solid #35c9ff}#home .tile:nth-child(3){border-top:3px solid #ff8a00}#home .tile:nth-child(4){border-top:3px solid #42e695}#home .tile:nth-child(5){border-top:3px solid #ff5c8a}#home .tile:nth-child(6){border-top:3px solid #ffe45e}
+#zones .eyebrow{color:#35c9ff}#zones .card{border-left:3px solid #35c9ff}#zones .card:nth-of-type(2){border-left-color:#c084fc}#zones .card:nth-of-type(3){border-left-color:#42e695}
+#races .eyebrow{color:#ff9d2e}#races .card{border-left:3px solid #ff8a00}
+#progress .eyebrow{color:#42e695}#progress .card{border-left:3px solid #42e695}
+#history .eyebrow{color:#c084fc}#history .card{border-left:3px solid #c084fc}
+#plan .eyebrow{color:#ffe45e}#plan .card{border-left:3px solid #ffe45e}
+#watches .eyebrow{color:#ff5c8a}#competitions .eyebrow{color:#ffe45e}#profile .eyebrow{color:#c084fc}#watches .card{border-left:3px solid #ff5c8a}
+#zones .zone:nth-child(2){border-left:3px solid #35c9ff}#zones .zone:nth-child(3){border-left:3px solid #42e695}#zones .zone:nth-child(4){border-left:3px solid #ffe45e}#zones .zone:nth-child(5){border-left:3px solid #ff9d2e}#zones .zone:nth-child(6){border-left:3px solid #ff5c8a}
+#plan input{accent-color:#ffe45e}
+.toast{background:linear-gradient(135deg,#ffb000,#ff5a00);color:#1a0c00}
+@media(prefers-reduced-motion:no-preference){.card,.tile,.btn{transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}.tile:hover{border-color:#ff8a00;box-shadow:0 8px 25px #ff6b0015}}
+
+
+.photo-preview{display:block;max-width:100%;max-height:240px;object-fit:cover;border-radius:14px;margin-top:10px;border:1px solid #444}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--line)}.setting-row:last-child{border-bottom:0}.setting-row strong{display:block;font-size:14px}.setting-row small{display:block;color:var(--muted);font-size:12px;line-height:1.4;margin-top:4px}.toggle{display:block;flex:0 0 auto;margin:0;position:relative;width:48px;height:28px}.toggle input{opacity:0;width:0;height:0;position:absolute}.toggle span{position:absolute;inset:0;background:#394150;border-radius:99px;cursor:pointer;transition:.2s}.toggle span:before{content:"";position:absolute;width:20px;height:20px;left:4px;top:4px;background:white;border-radius:50%;transition:.2s}.toggle input:checked+span{background:#ff8a00}.toggle input:checked+span:before{transform:translateX(20px)}.toggle input:focus-visible+span{outline:2px solid white;outline-offset:2px}.profile-photo{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #ff8a00;background:#222}
+.competition-photo{width:100%;max-height:230px;object-fit:cover;border-radius:12px;margin-top:10px}
+.progress-stat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.progress-stat .pill{display:block;text-align:center}
+.share-canvas{width:100%;border-radius:14px;border:1px solid #383838;margin-top:10px}
 </style>
 </head>
 <body>
-<header>
-<h1>🏃 RUN ZONES</h1>
-<p>Entrena con inteligencia. Supera tus marcas.</p>
-</header>
-<nav>
-<button class="active" onclick="show('zonas',this)">Zonas</button>
-<button onclick="show('plan',this)">Plan por km</button>
-<button onclick="show('marcas',this)">Mis marcas</button>
-<button onclick="show('historial',this)">Historial</button>
-<button onclick="show('reloj',this)">Reloj</button>
-</nav>
-<main>
-<section id="zonas" class="active">
-<div class="card">
-<h2>Calculadora de zonas</h2>
-<p class="small">Ingresa una marca reciente para estimar ritmos. La frecuencia cardíaca máxima y de reposo permiten estimar zonas de pulso.</p>
-<label>Distancia de tu marca</label>
-<select id="dist">
-<option value="5">5 kilómetros</option>
-<option value="10" selected>10 kilómetros</option>
-<option value="21.0975">Media maratón</option>
-<option value="42.195">Maratón</option>
-</select>
-<div class="grid">
-<div><label>Tiempo (minutos)</label><input id="mins" type="number" value="51" min="1"></div>
-<div><label>Segundos adicionales</label><input id="secs" type="number" value="0" min="0" max="59"></div>
-<div><label>FC máxima (lpm)</label><input id="fcmax" type="number" placeholder="Ej. 185"></div>
-<div><label>FC reposo (lpm)</label><input id="fcrest" type="number" placeholder="Ej. 60"></div>
-</div>
-<button class="primary" style="width:100%;margin-top:16px" onclick="calcZones()">Calcular zonas</button>
-<div id="zoneout"></div>
-<p class="small">Los ritmos son estimaciones orientativas basadas en una marca de carrera. Las zonas de pulso usan porcentajes de reserva cardíaca cuando ingresas ambos valores. No sustituyen una prueba fisiológica.</p>
-</div>
+<div class="toast" id="toast"></div>
+<div class="app">
+<header class="top"><div><div class="brand">JOTA<span>RUNN</span></div><div class="tag">TU PASIÓN · TUS OBJETIVOS</div></div><button class="avatar" style="padding:0;overflow:hidden" onclick="showSection('profile')" aria-label="Abrir perfil"><img id="headerProfilePhoto" class="profile-photo" style="width:42px;height:42px;border:0" alt="Foto de perfil" src="" onerror="this.style.display='none';this.parentElement.textContent='🏃'"></button></header>
+
+<section id="home" class="section active">
+  <div class="hero">
+    <div class="eyebrow">MI PRÓXIMO DESAFÍO</div>
+    <h1 id="homeRaceName">Tu próxima meta te espera</h1>
+    <p id="homeRaceDesc">Añade una carrera y tendrás tu cuenta regresiva aquí cada vez que abras JOTARUNN.</p>
+    <div class="race-meta"><span class="pill" id="homeDistance">🎯 10K</span><span class="pill" id="homeDate">📅 Fecha por definir</span></div>
+    <div class="countdown"><div class="count"><strong id="days">—</strong><small>días</small></div><div class="count"><strong id="hours">—</strong><small>horas</small></div><div class="count"><strong id="mins">—</strong><small>minutos</small></div></div>
+    <div class="goal"><div><small>MI OBJETIVO</small><strong id="homeGoal">47:00</strong><small id="homePace">Ritmo objetivo: 4:42 min/km</small></div><div class="cup">🏆</div></div>
+    <div id="officialRaceBox" class="official-box" style="display:none"><div class="official-label">PÁGINA OFICIAL DE LA CARRERA</div><div id="officialRaceName" class="official-name"></div><a id="officialRaceLink" class="btn official-btn" href="#" target="_blank" rel="noopener">Abrir página oficial ↗</a></div>
+    <button class="btn full" onclick="showSection('races')">Elegir / editar mi carrera →</button>
+  </div>
+  <h2 style="margin-top:22px">¿Qué quieres hacer hoy?</h2>
+  <div class="grid">
+    <button class="tile" onclick="showSection('history')"><span class="emoji">📚</span><strong>Historial del corredor</strong><small>Entrenamientos y objetivos</small></button>
+    <button class="tile" onclick="showSection('zones')"><span class="emoji">⚡</span><strong>Calculadora de zonas</strong><small>Ritmos actuales y objetivos</small></button>
+    <button class="tile" onclick="showSection('races')"><span class="emoji">🏁</span><strong>Calendario</strong><small>Mis carreras y próximas metas</small></button>
+    <button class="tile" onclick="showSection('progress')"><span class="emoji">📈</span><strong>Mi progreso</strong><small>Marcas y récords personales</small></button>
+    <button class="tile" onclick="showSection('watches')"><span class="emoji">⌚</span><strong>Vincular reloj</strong><small>Opciones de conexión</small></button>
+    <button class="tile" onclick="showSection('competitions')"><span class="emoji">🏆</span><strong>Competencias del año</strong><small>Resultados, fotos y progreso</small></button>
+    <button class="tile" onclick="showSection('profile')"><span class="emoji">👤</span><strong>Mi perfil</strong><small>Foto y datos del corredor</small></button>
+    <button class="tile" onclick="showSection('settings')"><span class="emoji">⚙️</span><strong>Configuración y privacidad</strong><small>Controla quién puede ver tus datos y cómo interactuar</small></button>
+    <button class="tile" onclick="showSection('plan')"><span class="emoji">🧮</span><strong>Planificar carrera</strong><small>Define el ritmo de cada kilómetro</small></button>
+  </div>
 </section>
 
-<section id="plan">
-<div class="card">
-<h2>Planificador por kilómetro</h2>
-<label>Distancia de carrera</label>
-<select id="race" onchange="makeKm()">
-<option value="5">5K</option>
-<option value="10" selected>10K</option>
-<option value="21">21K</option>
-<option value="42">42K</option>
-</select>
-<p class="small">Escribe el ritmo deseado para cada kilómetro en formato minutos:segundos. Ejemplo: 5:10. Los campos parten vacíos.</p>
-<div id="kms"></div>
-<button class="primary" style="width:100%;margin-top:12px" onclick="calcPlan()">Calcular tiempo total</button>
-<div id="planout" class="result"></div>
-<button onclick="savePlan()">Guardar plan</button>
-</div>
+<section id="zones" class="section">
+  <div class="eyebrow">ENTRENA CON INTENCIÓN</div><h1>Calculadora de zonas</h1><p>Elige si quieres entrenar según tu nivel actual o según la meta que buscas.</p>
+  <div class="switch"><button id="modeCurrent" class="active" onclick="setMode('current')">Mi último tiempo</button><button id="modeGoal" onclick="setMode('goal')">Mi objetivo</button></div>
+  <div class="card">
+    <label for="distance">Distancia de referencia</label><select id="distance" onchange="calculateZones()"><option value="5K">5K</option><option value="10K" selected>10K</option><option value="21.1K">Media maratón (21,1K)</option><option value="42.2K">Maratón (42,2K)</option></select>
+    <div id="currentFields"><label for="currentTime">Último tiempo de competencia (hh:mm:ss o mm:ss)</label><input id="currentTime" value="55:00" placeholder="Ej. 51:00" oninput="calculateZones()"></div>
+    <div id="goalFields" style="display:none"><label for="goalDistance">Distancia de tu objetivo</label><select id="goalDistance" onchange="syncGoalDistance();calculateZones()"><option value="5K">5K</option><option value="10K" selected>10K</option><option value="21.1K">Media maratón (21,1K)</option><option value="42.2K">Maratón (42,2K)</option></select><label for="goalTime">Tiempo que quieres conseguir</label><input id="goalTime" value="47:00" placeholder="Ej. 47:00" oninput="calculateZones()"></div>
+    <button class="btn full" onclick="calculateZones()">Calcular mis zonas</button>
+  </div>
+  <div class="card"><div class="row" style="align-items:flex-start"><div><h2 style="margin-bottom:3px">Zonas de ritmo</h2><div class="tiny" id="zoneBasis">Basado en tu último tiempo de competencia</div></div><span class="pill">min/km</span></div><div id="zonesResult"></div><p class="footnote">Rangos orientativos calculados desde el ritmo medio de la marca elegida; cada zona muestra su rango y el ritmo promedio recomendado. Ajusta por sensación, terreno, clima y condición física: una marca por sí sola no determina zonas exactas.</p></div>
 </section>
 
-<section id="marcas">
-<div class="card">
-<h2>Mis marcas personales</h2>
-<label>Distancia</label>
-<select id="mdist">
-<option value="5">5K</option><option value="10">10K</option>
-<option value="21.0975">21K</option><option value="42.195">42K</option>
-</select>
-<div class="grid">
-<div><label>Minutos</label><input id="mmin" type="number" min="0" placeholder="25"></div>
-<div><label>Segundos</label><input id="msec" type="number" min="0" max="59" placeholder="0"></div>
-</div>
-<label>Fecha</label><input id="mdate" type="date">
-<label>Observación (opcional)</label><input id="mnote" placeholder="Ej. Carrera o entrenamiento">
-<button class="primary" style="width:100%;margin-top:14px" onclick="saveMark()">Guardar marca</button>
-</div>
-<div id="personal" class="card"></div>
+<section id="plan" class="section">
+  <div class="eyebrow">ESTRATEGIA DE CARRERA</div><h1>Planificar por kilómetro</h1>
+  <p>Define el ritmo de cada kilómetro y JOTARUNN sumará los parciales para estimar tu tiempo final.</p>
+  <div class="card">
+    <label for="planDistance">Distancia de carrera</label>
+    <select id="planDistance" onchange="buildPlan()"><option value="5">5K</option><option value="10" selected>10K</option><option value="21.0975">Media maratón (21,0975K)</option><option value="42.195">Maratón (42,195K)</option></select>
+    <div class="row"><div><label for="defaultPace">Ritmo opcional para rellenar todos (mm:ss/km)</label><input id="defaultPace" value="" placeholder="Ej. 4:42"></div><div style="align-self:end"><button class="btn secondary full" onclick="applyDefaultPace()">Aplicar a todos</button></div></div>
+    <div id="planRows"></div>
+    <div class="goal"><div><small>TIEMPO TOTAL ACUMULADO</small><strong id="planTotal">00:00</strong><small id="planPaceAvg">Completa los ritmos kilómetro por kilómetro</small></div><div class="cup">⏱️</div></div>
+    <button class="btn full" onclick="savePlan()">Guardar planificación</button>
+    <button class="btn secondary full" onclick="loadPlan()">Cargar planificación guardada</button>
+    <p class="footnote">El plan es una estimación de tiempo en movimiento; no contempla desnivel, curvas, avituallamientos, congestión ni paradas. Media maratón y maratón usan sus distancias oficiales exactas, incluidos los tramos finales de 0,0975 km y 0,195 km.</p>
+  </div>
 </section>
 
-<section id="historial">
-<div class="card">
-<h2>Historial de rendimiento</h2>
-<div id="history"></div>
-<button class="danger" onclick="clearHistory()">Borrar todo el historial</button>
-<p class="small">Los datos se guardan en este navegador. Si borras sus datos o cambias de dispositivo, podrías perderlos.</p>
-</div>
+<section id="races" class="section">
+  <div class="eyebrow">CARRERAS EN CHILE</div><h1>Mi calendario</h1><p>Guarda una carrera y aparecerá en tu pantalla inicial. La conexión automática con Corre.cl todavía debe implementarse y validarse.</p>
+  <div class="card"><h2>Agregar una carrera</h2>
+    <label for="raceName">Nombre de la carrera</label><input id="raceName" placeholder="Ej. Corrida de Santiago">
+    <div class="row"><div><label for="raceDate">Fecha</label><input type="date" id="raceDate"></div><div><label for="raceDistance">Distancia</label><select id="raceDistance"><option>5K</option><option selected>10K</option><option>21,1K</option><option>42,2K</option><option>Trail</option></select></div></div>
+    <label for="raceLocation">Ciudad / región</label><input id="raceLocation" placeholder="Ej. Santiago, Región Metropolitana">
+    <label for="raceGoal">Tiempo objetivo (mm:ss o hh:mm:ss)</label><input id="raceGoal" value="47:00" placeholder="Ej. 47:00">
+    <label for="raceUrl">Enlace de Corre.cl o inscripción (opcional)</label><input id="raceUrl" type="url" placeholder="https://...">
+    <button class="btn full" onclick="addRace()">Guardar carrera en mi calendario</button>
+  </div>
+  <div class="card"><div class="row"><h2 style="flex:1">Mis próximas carreras</h2><button class="btn secondary" onclick="demoRace()">Añadir ejemplo</button></div><div id="raceList"></div><p class="footnote">Esta versión de prueba permite añadir carreras manualmente. No descarga todavía eventos desde Corre.cl; esa integración necesita una fuente de datos compatible y permisos de uso.</p></div>
 </section>
 
-<section id="reloj">
-<div class="card">
-<h2>Vincular reloj</h2>
-<p>Esta versión todavía no dispone de conexión automática con Garmin, Apple Watch u otros relojes.</p>
-<p class="small">Puedes registrar manualmente tus marcas. La sincronización real requiere integrar las API y autorizaciones correspondientes.</p>
-<label>Modelo de reloj</label>
-<select id="watch">
-<option>Garmin</option><option>Apple Watch</option>
-<option>Coros</option><option>Polar</option><option>Otro</option>
-</select>
-<button class="primary" style="margin-top:12px" onclick="localStorage.setItem('rzwatch',document.getElementById('watch').value);alert('Preferencia guardada en este dispositivo')">Guardar preferencia</button>
-</div>
+<section id="progress" class="section">
+  <div class="eyebrow">CADA PASO CUENTA</div><h1>Mi progreso</h1><p>Registra tus marcas para empezar a construir tu historial personal.</p>
+  <div class="card"><h2>Guardar una marca</h2><div class="row"><div><label for="markDistance">Distancia</label><select id="markDistance"><option>5K</option><option selected>10K</option><option>Media maratón</option><option>Maratón</option></select></div><div><label for="markTime">Tiempo (mm:ss)</label><input id="markTime" value="51:00" placeholder="51:00"></div></div><label for="markDate">Fecha de la marca</label><input id="markDate" type="date"><button class="btn full" onclick="addMark()">Guardar marca</button></div>
+  <div class="card"><h2>Mis marcas guardadas</h2><div id="marksList" class="empty">Todavía no has guardado marcas.</div></div>
 </section>
-</main>
-<footer>RUN ZONES · Tu entrenamiento, tus objetivos.</footer>
+
+<section id="history" class="section">
+  <div class="eyebrow">TU EVOLUCIÓN, EN UN SOLO LUGAR</div><h1>Historial del corredor</h1>
+  <p>Guarda tus entrenamientos manualmente y revisa tus objetivos anteriores. La sincronización automática con relojes requiere una integración real y todavía no está activa en este prototipo.</p>
+  <div class="switch"><button id="historyTrainTab" class="active" onclick="setHistoryTab('trainings')">Entrenamientos</button><button id="historyGoalTab" onclick="setHistoryTab('goals')">Objetivos</button></div>
+  <div id="historyTrainings">
+    <div class="card"><h2>Registrar entrenamiento</h2>
+      <div class="row"><div><label for="trainingDate">Fecha</label><input id="trainingDate" type="date"></div><div><label for="trainingType">Tipo</label><select id="trainingType"><option>Rodaje fácil</option><option>Recuperación</option><option>Series / intervalos</option><option>Tempo / umbral</option><option>Fondo largo</option><option>Competencia</option><option>Otro</option></select></div></div>
+      <div class="row"><div><label for="trainingDistance">Distancia (km)</label><input id="trainingDistance" type="number" min="0.1" step="0.1" placeholder="Ej. 8.5"></div><div><label for="trainingTime">Tiempo total (hh:mm:ss o mm:ss)</label><input id="trainingTime" placeholder="Ej. 48:30"></div></div>
+      <div class="row"><div><label for="trainingElevation">Desnivel positivo (m)</label><input id="trainingElevation" type="number" min="0" placeholder="Ej. 180"></div><div><label for="trainingHR">FC media (ppm, opcional)</label><input id="trainingHR" type="number" min="30" max="230" placeholder="Ej. 150"></div></div><label for="trainingNotes">Notas (opcional)</label><input id="trainingNotes" placeholder="Sensaciones, terreno..."><label for="trainingPhoto">Foto del entrenamiento (opcional)</label><input id="trainingPhoto" type="file" accept="image/*" onchange="previewPhoto(this,'trainingPhotoPreview')"><img id="trainingPhotoPreview" class="photo-preview" style="display:none" alt="Vista previa de foto del entrenamiento">
+      <button class="btn full" onclick="addTraining()">Guardar entrenamiento</button>
+    </div>
+    <div class="card"><h2>Mis entrenamientos guardados</h2><div id="trainingList" class="empty">Todavía no has guardado entrenamientos.</div></div>
+  </div>
+  <div id="historyGoals" style="display:none">
+    <div class="card"><h2>Registrar objetivo</h2>
+      <div class="row"><div><label for="historyGoalDate">Fecha</label><input id="historyGoalDate" type="date"></div><div><label for="historyGoalDistance">Distancia</label><select id="historyGoalDistance"><option>5K</option><option selected>10K</option><option>Media maratón</option><option>Maratón</option></select></div></div>
+      <div class="row"><div><label for="historyGoalTime">Tiempo objetivo</label><input id="historyGoalTime" placeholder="Ej. 47:00"></div><div><label for="historyGoalStatus">Estado</label><select id="historyGoalStatus"><option>En curso</option><option>Conseguido</option><option>Reemplazado</option></select></div></div>
+      <label for="historyGoalNotes">Notas (opcional)</label><input id="historyGoalNotes" placeholder="Ej. Bajar de 47 minutos en 10K">
+      <button class="btn full" onclick="addHistoryGoal()">Guardar objetivo</button>
+    </div>
+    <div class="card"><h2>Mi historial de objetivos</h2><div id="historyGoalList" class="empty">Todavía no has guardado objetivos.</div></div>
+  </div>
+</section>
+
+
+<section id="competitions" class="section">
+  <div class="eyebrow">CADA CARRERA CUENTA</div><h1>Competencias del año</h1>
+  <p>Registra cada competencia con fecha, distancia, tiempo y foto. Aquí podrás comparar tus resultados y revisar tu evolución por distancia.</p>
+  <div class="card"><h2>Agregar competencia</h2>
+    <label for="compName">Nombre de la competencia</label><input id="compName" placeholder="Ej. Corrida de Santiago">
+    <div class="row"><div><label for="compDate">Fecha</label><input id="compDate" type="date"></div><div><label for="compDistance">Distancia</label><select id="compDistance"><option value="5K">5K</option><option value="10K">10K</option><option value="Media maratón">Media maratón</option><option value="Maratón">Maratón</option><option value="Trail / otra">Trail / otra</option></select></div></div>
+    <div class="row"><div><label for="compTime">Tiempo final (mm:ss o hh:mm:ss)</label><input id="compTime" placeholder="Ej. 51:30"></div><div><label for="compCity">Ciudad</label><input id="compCity" placeholder="Ej. Santiago"></div></div>
+    <label for="compPhoto">Foto de la competencia (opcional)</label><input id="compPhoto" type="file" accept="image/*" onchange="previewPhoto(this,'compPhotoPreview')"><img id="compPhotoPreview" class="photo-preview" style="display:none" alt="Vista previa de competencia">
+    <button class="btn full" onclick="addCompetition()">Guardar competencia</button>
+  </div>
+  <div class="card"><div class="row"><div><h2>Historial y progreso</h2></div><div><label for="compYearFilter">Año</label><select id="compYearFilter" onchange="renderCompetitions()"></select></div></div><div id="competitionStats" class="progress-stat"></div><div id="competitionList" class="empty">Aún no hay competencias registradas.</div></div>
+  <div class="card"><h2>Mejor tiempo por distancia</h2><div id="competitionBests" class="empty">Tus mejores tiempos aparecerán al registrar competencias.</div></div>
+</section>
+<section id="profile" class="section">
+  <div class="eyebrow">TU PERFIL DE CORREDOR</div><h1>Mi perfil</h1>
+  <div class="card"><h2>Foto de perfil</h2><img id="profilePhotoPreview" class="profile-photo" style="width:110px;height:110px" alt="Foto de perfil"><label for="profilePhotoInput">Subir o cambiar foto</label><input id="profilePhotoInput" type="file" accept="image/*" onchange="saveProfilePhoto(this)"><label for="profileName">Nombre</label><input id="profileName" placeholder="Tu nombre de corredor"><label for="profileCity">Ciudad</label><input id="profileCity" placeholder="Ej. San Joaquín, Santiago"><button class="btn full" onclick="saveProfile()">Guardar perfil</button></div>
+</section>
+
+<section id="settings" class="section">
+  <div class="eyebrow">TÚ DECIDES QUÉ COMPARTIR</div><h1>Configuración y privacidad</h1>
+  <p>Controla la visibilidad de tu perfil, entrenamientos y competencias, además de las solicitudes de amistad y notificaciones.</p>
+  <div class="card"><h2>🔒 Privacidad de tu cuenta</h2>
+    <label for="profileVisibility">Quién puede ver mi perfil</label><select id="profileVisibility"><option value="public">Todos</option><option value="friends">Solo amigos</option><option value="private">Solo yo</option></select>
+    <label for="workoutVisibility">Quién puede ver mis entrenamientos</label><select id="workoutVisibility"><option value="public">Todos</option><option value="friends">Solo amigos</option><option value="private">Solo yo</option></select>
+    <label for="competitionVisibility">Quién puede ver mis competencias y resultados</label><select id="competitionVisibility"><option value="public">Todos</option><option value="friends">Solo amigos</option><option value="private">Solo yo</option></select>
+    <label for="photoVisibility">Quién puede ver mis fotos</label><select id="photoVisibility"><option value="public">Todos</option><option value="friends">Solo amigos</option><option value="private">Solo yo</option></select>
+  </div>
+  <div class="card"><h2>🤝 Amigos y solicitudes</h2>
+    <div class="setting-row"><div><strong>Recibir solicitudes de amistad</strong><small>Permite que otros corredores te envíen una solicitud.</small></div><label class="toggle"><input id="allowFriendRequests" type="checkbox"><span></span></label></div>
+    <div class="setting-row"><div><strong>Aceptar solicitudes automáticamente</strong><small>Si está desactivado, podrás revisar cada solicitud antes de aceptar.</small></div><label class="toggle"><input id="autoAcceptFriends" type="checkbox"><span></span></label></div>
+    <div class="setting-row"><div><strong>Permitir que me encuentren</strong><small>Tu perfil podrá aparecer en búsquedas de corredores.</small></div><label class="toggle"><input id="discoverable" type="checkbox"><span></span></label></div>
+  </div>
+  <div class="card"><h2>🔔 Notificaciones</h2>
+    <div class="setting-row"><div><strong>Solicitudes y actividad de amigos</strong><small>Avisos de nuevas solicitudes e interacciones.</small></div><label class="toggle"><input id="friendNotifications" type="checkbox"><span></span></label></div>
+    <div class="setting-row"><div><strong>Recordatorios de entrenamiento</strong><small>Recordatorios para mantener tu planificación.</small></div><label class="toggle"><input id="trainingReminders" type="checkbox"><span></span></label></div>
+  </div>
+  <div class="card"><h2>🗃️ Tus datos</h2><p class="tiny">Esta versión guarda preferencias y registros en este navegador. Los ajustes de privacidad quedan preparados para la futura función social, pero todavía no bloquean el acceso de otras cuentas porque la aplicación aún no tiene usuarios conectados ni servidor.</p><button class="btn full" onclick="saveSettings()">Guardar configuración</button><button class="btn secondary full" onclick="resetSettings()">Restablecer valores predeterminados</button></div>
+</section>
+
+<section id="watches" class="section">
+  <div class="eyebrow">TUS DATOS, A TU RITMO</div><h1>Vincular mi reloj</h1><p>Selecciona el reloj que utilizas. La conexión real se incorporará después de verificar la API o el método de sincronización de cada fabricante.</p>
+  <div class="card">
+    <button class="tile" style="width:100%;min-height:auto;margin-bottom:8px" onclick="watchInfo('Garmin')"><span class="emoji">⌚</span><strong>Garmin</strong><small>Explorar opciones de conexión</small></button>
+    <button class="tile" style="width:100%;min-height:auto;margin-bottom:8px" onclick="watchInfo('Apple Watch')"><span class="emoji">🍎</span><strong>Apple Watch</strong><small>Compatibilidad para iPhone</small></button>
+    <button class="tile" style="width:100%;min-height:auto;margin-bottom:8px" onclick="watchInfo('Polar')"><span class="emoji">🔵</span><strong>Polar</strong><small>Explorar opciones de conexión</small></button>
+    <button class="tile" style="width:100%;min-height:auto;margin-bottom:8px" onclick="watchInfo('COROS')"><span class="emoji">🔴</span><strong>COROS</strong><small>Explorar opciones de conexión</small></button>
+    <button class="tile" style="width:100%;min-height:auto" onclick="watchInfo('Samsung Galaxy Watch')"><span class="emoji">⚫</span><strong>Samsung Galaxy Watch</strong><small>Explorar opciones de conexión</small></button>
+  </div>
+</section>
+</div>
+<nav class="nav"><div class="navinner">
+<button class="active" data-section="home" onclick="showSection('home')"><span>⌂</span>Inicio</button>
+<button data-section="zones" onclick="showSection('zones')"><span>⚡</span>Zonas</button>
+<button data-section="races" onclick="showSection('races')"><span>🏁</span>Carreras</button>
+<button data-section="progress" onclick="showSection('progress')"><span>▥</span>Progreso</button>
+<button data-section="history" onclick="showSection('history')"><span>📚</span>Historial</button>
+<button data-section="plan" onclick="showSection('plan')"><span>🧮</span>Plan km</button>
+<button data-section="watches" onclick="showSection('watches')"><span>⌚</span>Relojes</button>
+<button data-section="competitions" onclick="showSection('competitions')"><span>🏆</span>Comp.</button>
+<button data-section="profile" onclick="showSection('profile')"><span>👤</span>Perfil</button>
+<button data-section="settings" onclick="showSection('settings')"><span>⚙️</span>Ajustes</button>
+</div></nav>
 <script>
-function show(id,btn){
-document.querySelectorAll('main section').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
-if(id==='historial')renderHistory();
-if(id==='marcas')renderMarks();
+const $=id=>document.getElementById(id);
+let mode='current', races=[], marks=[], trainings=[], historyGoals=[], competitions=[], profile={name:'',city:'',photo:''};
+const defaultSettings={profileVisibility:'public',workoutVisibility:'friends',competitionVisibility:'friends',photoVisibility:'friends',allowFriendRequests:true,autoAcceptFriends:false,discoverable:true,friendNotifications:true,trainingReminders:true};
+let appSettings={...defaultSettings};
+function toast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
+function showSection(id){document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.section===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='zones')calculateZones();if(id==='competitions')renderCompetitions();if(id==='settings')loadSettings()}
+function setMode(m){mode=m;$('modeCurrent').classList.toggle('active',m==='current');$('modeGoal').classList.toggle('active',m==='goal');$('currentFields').style.display=m==='current'?'block':'none';$('goalFields').style.display=m==='goal'?'block':'none';$('zoneBasis').textContent=m==='current'?'Basado en tu último tiempo de competencia':'Basado en el ritmo de tu objetivo';calculateZones()}
+function syncGoalDistance(){$('distance').value=$('goalDistance').value}
+function parseTime(s){if(!s)return NaN;let a=s.trim().split(':').map(Number);if(a.some(x=>!Number.isFinite(x)||x<0))return NaN;if(a.length===2)return a[0]*60+a[1];if(a.length===3)return a[0]*3600+a[1]*60+a[2];return NaN}
+function distKm(d){return d==='5K'?5:d==='10K'?10:d==='21.1K'?21.0975:42.195}
+function fmt(sec){sec=Math.max(0,Math.round(sec));return Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0')}
+function calculateZones(){
+  const d=mode==='goal' ? $('goalDistance').value : $('distance').value;
+  const seconds=parseTime(mode==='current' ? $('currentTime').value : $('goalTime').value);
+  const km=distKm(d), box=$('zonesResult');
+  if(!Number.isFinite(seconds)||seconds<=0||!Number.isFinite(km)||km<=0){
+    box.innerHTML='<div class="empty">Ingresa un tiempo válido para calcular tus zonas.</div>';
+    return;
+  }
+  const racePace=seconds/km;
+  // Modelo VDOT de Daniels-Gilbert: calcula la aptitud estimada desde la marca
+  // y convierte porcentajes de VO2max en ritmos de entrenamiento.
+  const raceMinutes=seconds/60;
+  const velocity=km*1000/raceMinutes; // metros por minuto
+  const vo2AtRace=-4.60+0.182258*velocity+0.000104*velocity*velocity;
+  const fractionAtRace=0.8+0.1894393*Math.exp(-0.012778*raceMinutes)+0.2989558*Math.exp(-0.1932605*raceMinutes);
+  const vdot=vo2AtRace/fractionAtRace;
+  function paceAtFraction(fraction){
+    // Solve 0.000104*v² + 0.182258*v - 4.60 = VDOT*fraction
+    const c=-4.60-vdot*fraction;
+    const disc=0.182258*0.182258-4*0.000104*c;
+    const v=(-0.182258+Math.sqrt(disc))/(2*0.000104);
+    return 1000/v*60;
+  }
+  const defs=[
+    [1,'Recuperación',0.65,0.74,'#60a5fa','Rodajes muy suaves, calentamiento, vuelta a la calma y recuperación. Debes poder conversar con facilidad.'],
+    [2,'Aeróbica fácil',0.74,0.79,'#4ade80','Construye resistencia y base aeróbica. Es el ritmo para la mayoría de los rodajes fáciles y muchos fondos; puedes hablar en frases completas.'],
+    [3,'Ritmo maratón / sostenido',0.79,0.84,'#facc15','Esfuerzo constante y controlado para mejorar la resistencia a ritmos sostenidos. No debe sentirse como una serie rápida.'],
+    [4,'Umbral / tempo',0.86,0.88,'#fb923c','Ritmo exigente pero sostenible en bloques tempo o intervalos de umbral. Respiración fuerte y controlada; no es el ritmo de sprint.'],
+    [5,'Intervalos rápidos',0.98,1.05,'#f87171','Repeticiones intensas y cortas para trabajar potencia aeróbica y velocidad. Úsalas en tramos acotados con recuperación suficiente.']
+  ];
+  box.innerHTML=`<div class="pill" style="display:inline-block;margin:8px 0">Ritmo medio de referencia: ${fmt(racePace)} min/km</div><p class="tiny">Estimación basada en VDOT a partir de tu marca. Los ritmos dependen de que la marca sea reciente y representativa.</p>`;
+  defs.forEach(([z,n,slowFraction,fastFraction,c,desc])=>{
+    // A mayor porcentaje de VO2max, mayor velocidad y menor tiempo por km.
+    const fasterSec=paceAtFraction(fastFraction), slowerSec=paceAtFraction(slowFraction);
+    const avgSec=(fasterSec+slowerSec)/2;
+    const div=document.createElement('div');div.className='zone';
+    div.innerHTML=`<div class="zbadge" style="background:${c}">${z}</div><div class="desc"><strong>Zona ${z} · ${n}</strong><small>${desc}</small><small style="display:block;margin-top:5px;color:#e4eaf3">Promedio recomendado: <b>${fmt(avgSec)} min/km</b></small></div><div class="pace">${fmt(fasterSec)}–${fmt(slowerSec)}<small style="display:block;color:#9aa9be;font-size:10px">rango min/km</small></div>`;
+    box.appendChild(div);
+  });
 }
-function pace(sec){
-let m=Math.floor(sec/60),s=Math.round(sec%60);
-if(s===60){m++;s=0}
-return m+':'+String(s).padStart(2,'0');
+let savedPlan=null;
+function planSegments(){
+  const distance=Number($('planDistance').value);
+  const whole=Math.floor(distance);
+  const remainder=distance-whole;
+  const segments=Array.from({length:whole},()=>1);
+  if(remainder>0.00001) segments.push(remainder);
+  return segments;
 }
-function calcZones(){
-let d=+document.getElementById('dist').value;
-let t=(+document.getElementById('mins').value*60)+(+document.getElementById('secs').value);
-if(t<=0){alert('Ingresa un tiempo válido');return}
-let p=t/d, v=d===5?1.07:d===10?1.0:d<22?.94:.88;
-let names=['Z1 · Recuperación','Z2 · Suave','Z3 · Aeróbica','Z4 · Umbral','Z5 · Intensa'];
-let factors=[1.35,1.22,1.12,1.04,.90];
-let out='<h3>Ritmos estimados por kilómetro</h3><table><tr><th>Zona</th><th>Ritmo min/km</th></tr>';
-names.forEach((n,i)=>out+='<tr><td>'+n+'</td><td>'+pace(p*factors[i]*v)+'</td></tr>');
-out+='</table>';
-let mx=+document.getElementById('fcmax').value, rest=+document.getElementById('fcrest').value;
-if(mx>rest&&rest>0){
-out+='<h3>Zonas de frecuencia cardíaca (reserva)</h3><table><tr><th>Zona</th><th>Latidos/min</th></tr>';
-[[.5,.6],[.6,.7],[.7,.8],[.8,.9],[.9,1]].forEach((a,i)=>{
-let lo=Math.round(rest+(mx-rest)*a[0]),hi=Math.round(rest+(mx-rest)*a[1]);
-out+='<tr><td>'+names[i]+'</td><td>'+lo+'–'+hi+'</td></tr>';
-});
-out+='</table>';
-}else out+='<p class="small">Ingresa FC máxima y de reposo para calcular zonas de pulso.</p>';
-document.getElementById('zoneout').innerHTML=out;
+function buildPlan(values){
+  const segments=planSegments(),box=$('planRows');
+  box.innerHTML='';
+  const defaults=values||Array.from({length:segments.length},()=> '');
+  segments.forEach((km,i)=>{
+    const label=km===1?`KM ${i+1}`:`KM ${i+1} (${km.toLocaleString('es-CL',{maximumFractionDigits:4})} km)`;
+    const row=document.createElement('div');row.className='row';row.style.margin='7px 0';
+    row.innerHTML=`<div style="flex:0 0 105px"><span class="pill">${label}</span></div><div><input aria-label="Ritmo del tramo ${i+1}" data-km="${km}" class="plan-pace" value="${escapeAttr(defaults[i]||'')}" placeholder="mm:ss/km" oninput="updatePlanTotal()"></div><div style="flex:0 0 74px;text-align:right;font-weight:800" id="split${i+1}">00:00</div>`;
+    box.appendChild(row);
+  });
+  updatePlanTotal();
 }
-function makeKm(){
-let n=+document.getElementById('race').value,html='';
-for(let i=1;i<=n;i++)html+='<div class="kmrow"><span>Km '+i+'</span><input id="pace'+i+'" placeholder="5:10" aria-label="Ritmo km '+i+'"><span id="sum'+i+'">—</span></div>';
-document.getElementById('kms').innerHTML=html;
-document.getElementById('planout').textContent='';
+function applyDefaultPace(){
+  const pace=$('defaultPace').value.trim(),seconds=parseTime(pace);
+  if(!Number.isFinite(seconds)||seconds<=0){toast('Ingresa un ritmo válido, por ejemplo 4:42.');return}
+  document.querySelectorAll('.plan-pace').forEach(i=>i.value=pace);
+  updatePlanTotal();toast('Ritmo aplicado a todos los tramos.');
 }
-function readPace(s){
-if(!/^\d{1,2}:[0-5]\d$/.test(s.trim()))return null;
-let a=s.split(':').map(Number);return a[0]*60+a[1];
-}
-function calcPlan(){
-let n=+document.getElementById('race').value,total=0,missing=0;
-for(let i=1;i<=n;i++){
-let v=document.getElementById('pace'+i).value.trim(),s=v?readPace(v):null;
-if(s===null){missing++;document.getElementById('sum'+i).textContent='Pendiente'}
-else{total+=s;document.getElementById('sum'+i).textContent=pace(s)}
-}
-document.getElementById('planout').textContent=missing?'Faltan '+missing+' ritmos por completar. Suma parcial: '+pace(total):'Tiempo objetivo: '+Math.floor(total/3600)+':'+String(Math.floor(total%3600/60)).padStart(2,'0')+':'+String(total%60).padStart(2,'0');
-}
-function getData(){try{return JSON.parse(localStorage.getItem('rzmarks')||'[]')}catch(e){return []}}
-function saveMark(){
-let d=document.getElementById('mdist').value,m=+document.getElementById('mmin').value,s=+document.getElementById('msec').value;
-if(document.getElementById('mmin').value===''||m<0||s<0||s>59){alert('Ingresa un tiempo válido');return}
-let arr=getData();
-arr.push({id:Date.now(),d:+d,t:m*60+s,date:document.getElementById('mdate').value||new Date().toISOString().slice(0,10),note:document.getElementById('mnote').value});
-localStorage.setItem('rzmarks',JSON.stringify(arr));
-renderMarks();renderHistory();alert('Marca guardada');
+function updatePlanTotal(){
+  const inputs=[...document.querySelectorAll('.plan-pace')];let total=0,validCount=0,allValid=true,validKm=0;
+  inputs.forEach((input,i)=>{
+    const pace=parseTime(input.value),km=Number(input.dataset.km),split=$('split'+(i+1));
+    if(!input.value.trim()){split.textContent='—';allValid=false;return}
+    if(!Number.isFinite(pace)||pace<=0){split.textContent='--:--';allValid=false;return}
+    const elapsed=pace*km;
+    total+=elapsed;validCount++;validKm+=km;split.textContent=fmt(elapsed);
+  });
+  $('planTotal').textContent=validCount?fmt(total):'00:00';
+  if(allValid&&inputs.length){
+    const distance=Number($('planDistance').value);
+    $('planPaceAvg').textContent='Ritmo promedio: '+fmt(total/distance)+' min/km · '+distance.toLocaleString('es-CL',{maximumFractionDigits:4})+' km';
+  }else{
+    $('planPaceAvg').textContent=validCount+' de '+inputs.length+' tramos completados · total parcial de los ritmos ingresados';
+  }
 }
 function savePlan(){
-let n=+document.getElementById('race').value,vals=[];
-for(let i=1;i<=n;i++)vals.push(document.getElementById('pace'+i).value);
-localStorage.setItem('rzplan',JSON.stringify({n,vals}));
-alert('Plan guardado en este dispositivo');
+  const inputs=[...document.querySelectorAll('.plan-pace')];
+  if(inputs.some(i=>!i.value.trim()||!Number.isFinite(parseTime(i.value))||parseTime(i.value)<=0)){toast('Completa el tiempo de cada kilómetro antes de guardar.');return}
+  savedPlan={distance:$('planDistance').value,defaultPace:$('defaultPace').value,values:inputs.map(i=>i.value)};
+  toast('Plan guardado durante esta sesión.');
 }
-function renderMarks(){
-let a=getData(),html='<h2>Récords personales</h2>';
-[5,10,21.0975,42.195].forEach(d=>{
-let list=a.filter(x=>x.d===d).sort((x,y)=>x.t-y.t);
-html+='<p><b>'+({5:'5K',10:'10K',21.0975:'Media maratón',42.195:'Maratón'}[d])+'</b>: '+(list.length?pace(list[0].t):'Sin marca')+'</p>';
-});
-document.getElementById('personal').innerHTML=html;
+function loadPlan(){
+  if(!savedPlan){toast('Todavía no hay un plan guardado en esta sesión.');return}
+  $('planDistance').value=savedPlan.distance;$('defaultPace').value=savedPlan.defaultPace;buildPlan(savedPlan.values);toast('Plan cargado.');
 }
-function renderHistory(){
-let a=getData().sort((x,y)=>y.id-x.id),html='<table><tr><th>Fecha</th><th>Distancia</th><th>Tiempo</th><th></th></tr>';
-a.forEach(x=>html+='<tr><td>'+x.date+'</td><td>'+x.d+'K</td><td>'+pace(x.t)+'</td><td><button onclick="editMark('+x.id+')">Editar</button> <button class="danger" onclick="deleteMark('+x.id+')">X</button></td></tr>');
-document.getElementById('history').innerHTML=html+'</table>';
+function addRace(){const name=$('raceName').value.trim(),date=$('raceDate').value,dist=$('raceDistance').value,loc=$('raceLocation').value.trim(),goal=$('raceGoal').value.trim(),url=$('raceUrl').value.trim();if(!name||!date||!goal){toast('Completa nombre, fecha y objetivo.');return}if(!Number.isFinite(parseTime(goal))){toast('Revisa el formato del tiempo objetivo.');return}races.push({name,date,dist,loc,goal,url});races.sort((a,b)=>a.date.localeCompare(b.date));renderRaces();updateHome();toast('¡Carrera guardada!');$('raceName').value='';$('raceLocation').value='';$('raceUrl').value=''}
+function demoRace(){let d=new Date();d.setDate(d.getDate()+30);const date=d.toISOString().slice(0,10);races.push({name:'Mi próxima carrera',date,dist:'10K',loc:'Chile',goal:'47:00',url:''});races.sort((a,b)=>a.date.localeCompare(b.date));renderRaces();updateHome();toast('Ejemplo añadido; puedes editarlo agregando tu carrera real.')}
+function renderRaces(){const box=$('raceList');if(!races.length){box.innerHTML='<div class="empty">Aún no tienes carreras. Añade la primera arriba.</div>';return}box.innerHTML='';races.forEach((r,i)=>{const dt=new Date(r.date+'T12:00:00');const el=document.createElement('div');el.className='card';el.style.margin='8px 0';el.innerHTML=`<div class="raceitem"><div class="datebox"><strong>${String(dt.getDate()).padStart(2,'0')}</strong><small>${dt.toLocaleDateString('es-CL',{month:'short'}).toUpperCase()}</small></div><div class="info"><strong>${escapeHtml(r.name)}</strong><small>${escapeHtml(r.loc||'Chile')} · ${escapeHtml(r.dist)} · Objetivo ${escapeHtml(r.goal)}</small>${r.url?`<small><a href="${escapeAttr(r.url)}" target="_blank" rel="noopener" style="color:#ff9d2e">Abrir enlace de la carrera ↗</a></small>`:''}</div><button class="btn secondary" onclick="deleteRace(${i})" aria-label="Eliminar carrera">✕</button></div>`;box.appendChild(el)})}
+function deleteRace(i){races.splice(i,1);renderRaces();updateHome();toast('Carrera eliminada.')}
+function updateHome(){const today=new Date();today.setHours(0,0,0,0);const next=races.find(r=>new Date(r.date+'T12:00:00')>=today);if(!next){$('homeRaceName').textContent='Tu próxima meta te espera';$('homeRaceDesc').textContent='Añade una carrera y tendrás tu cuenta regresiva aquí cada vez que abras JOTARUNN.';$('homeDistance').textContent='🎯 10K';$('homeDate').textContent='📅 Fecha por definir';['days','hours','mins'].forEach(id=>$(id).textContent='—');$('homeGoal').textContent='47:00';$('homePace').textContent='Ritmo objetivo: 4:42 min/km';$('officialRaceBox').style.display='none';return}const dt=new Date(next.date+'T00:00:00');const diff=Math.max(0,dt-today);$('homeRaceName').textContent=next.name;$('homeRaceDesc').textContent=next.loc||'Chile';$('homeDistance').textContent='🎯 '+next.dist;$('homeDate').textContent='📅 '+dt.toLocaleDateString('es-CL',{day:'numeric',month:'long',year:'numeric'});$('days').textContent=Math.floor(diff/86400000);$('hours').textContent='—';$('mins').textContent='—';$('homeGoal').textContent=next.goal;const secs=parseTime(next.goal),km=distKm(next.dist);$('homePace').textContent=Number.isFinite(km)&&Number.isFinite(secs)?'Ritmo objetivo: '+fmt(secs/km)+' min/km':'Tu objetivo de carrera';const official=$('officialRaceBox');if(next.url){official.style.display='block';$('officialRaceName').textContent=next.name;$('officialRaceLink').href=next.url}else{official.style.display='none';$('officialRaceLink').removeAttribute('href')}}
+function addMark(){const d=$('markDistance').value,t=$('markTime').value.trim(),date=$('markDate').value||new Date().toISOString().slice(0,10);if(!Number.isFinite(parseTime(t))){toast('Ingresa un tiempo válido.');return}marks.push({d,t,date});marks.sort((a,b)=>a.date.localeCompare(b.date));renderMarks();toast('Marca guardada.')}
+function renderMarks(){const box=$('marksList');if(!marks.length){box.className='empty';box.textContent='Todavía no has guardado marcas.';return}box.className='';box.innerHTML='';marks.forEach((m,i)=>{const el=document.createElement('div');el.className='zone';el.innerHTML=`<div class="zbadge" style="background:#ff8a00">🏅</div><div class="desc"><strong>${escapeHtml(m.d)} · ${escapeHtml(m.t)}</strong><small>${escapeHtml(m.date)}</small></div><button class="btn secondary" onclick="editMark(${i})">Corregir</button>`;box.appendChild(el)})}
+function editMark(i){const t=prompt('Corrige el tiempo de esta marca (mm:ss o hh:mm:ss):',marks[i].t);if(t===null)return;if(!Number.isFinite(parseTime(t))){toast('Formato de tiempo no válido.');return}marks[i].t=t;renderMarks();toast('Marca corregida.')}
+
+function setHistoryTab(tab){
+  const isTrain=tab==='trainings';
+  $('historyTrainings').style.display=isTrain?'block':'none';
+  $('historyGoals').style.display=isTrain?'none':'block';
+  $('historyTrainTab').classList.toggle('active',isTrain);
+  $('historyGoalTab').classList.toggle('active',!isTrain);
 }
-function editMark(id){
-let a=getData(),x=a.find(z=>z.id===id);if(!x)return;
-let v=prompt('Nuevo tiempo minutos:segundos',pace(x.t));if(v===null)return;
-let t=readPace(v);if(t===null){alert('Usa formato 25:30');return}
-x.t=t;let date=prompt('Fecha YYYY-MM-DD',x.date);if(date!==null&&/^\d{4}-\d{2}-\d{2}$/.test(date))x.date=date;
-localStorage.setItem('rzmarks',JSON.stringify(a));renderHistory();renderMarks();
+function loadHistory(){
+  try{
+    trainings=JSON.parse(localStorage.getItem('jotarunn_trainings')||'[]');
+    historyGoals=JSON.parse(localStorage.getItem('jotarunn_history_goals')||'[]');
+  }catch(e){trainings=[];historyGoals=[];}
+  renderTrainings();renderHistoryGoals();
 }
-function deleteMark(id){
-if(!confirm('¿Eliminar esta marca?'))return;
-localStorage.setItem('rzmarks',JSON.stringify(getData().filter(x=>x.id!==id)));renderHistory();renderMarks();
+function saveHistory(){
+  try{
+    localStorage.setItem('jotarunn_trainings',JSON.stringify(trainings));
+    localStorage.setItem('jotarunn_history_goals',JSON.stringify(historyGoals));
+  }catch(e){toast('No se pudo guardar localmente. Revisa el espacio disponible del navegador.');}
 }
-function clearHistory(){
-if(confirm('¿Borrar todas las marcas guardadas?')){localStorage.removeItem('rzmarks');renderHistory();renderMarks()}
+async function addTraining(){
+  const date=$('trainingDate').value||new Date().toISOString().slice(0,10),type=$('trainingType').value,
+    distance=Number($('trainingDistance').value),time=$('trainingTime').value.trim(),hr=$('trainingHR').value.trim(),
+    elevation=Number($('trainingElevation').value||0),notes=$('trainingNotes').value.trim();
+  if(!Number.isFinite(distance)||distance<=0){toast('Ingresa una distancia válida.');return}
+  if(!Number.isFinite(parseTime(time))||parseTime(time)<=0){toast('Ingresa un tiempo válido, por ejemplo 48:30.');return}
+  const photo=await readPhotoFile($('trainingPhoto').files[0]);
+  trainings.push({id:Date.now(),date,type,distance,time,hr,elevation,notes,photo,source:'Manual'});
+  trainings.sort((a,b)=>b.date.localeCompare(a.date));saveHistory();renderTrainings();toast('Entrenamiento guardado.');
+  $('trainingDistance').value='';$('trainingTime').value='';$('trainingHR').value='';$('trainingElevation').value='';$('trainingNotes').value='';$('trainingPhoto').value='';$('trainingPhotoPreview').style.display='none';
 }
-makeKm();renderMarks();renderHistory();
-document.getElementById('watch').value=localStorage.getItem('rzwatch')||'Garmin';
-document.getElementById('mdate').value=new Date().toISOString().slice(0,10);
+function renderTrainings(){
+  const box=$('trainingList');
+  if(!trainings.length){box.className='empty';box.textContent='Todavía no has guardado entrenamientos.';return;}
+  box.className='';box.innerHTML='';
+  trainings.forEach((t,i)=>{
+    const sec=parseTime(t.time),pace=Number.isFinite(sec)&&t.distance>0?fmt(sec/t.distance):'—';
+    const el=document.createElement('div');el.className='card';el.style.margin='8px 0';
+    el.innerHTML=`<div class="raceitem"><div class="info"><strong>${escapeHtml(t.date)} · ${escapeHtml(t.type)}</strong><small>${escapeHtml(String(t.distance))} km · Tiempo ${escapeHtml(t.time)} · Ritmo medio ${pace} min/km</small><small>Desnivel +${Number(t.elevation||0)} m · ${t.hr?`FC media: ${escapeHtml(t.hr)} ppm · `:''}${escapeHtml(t.notes||'Sin notas')}</small></div><button class="btn secondary" onclick="editTraining(${i})">Editar</button><button class="btn secondary" onclick="deleteTraining(${i})">✕</button></div>${t.photo?`<img class="photo-preview" src="${t.photo}" alt="Foto del entrenamiento">`:''}<button class="btn full" onclick="downloadWorkoutCard(${i})">Descargar imagen con datos</button>`;
+    box.appendChild(el);
+  });
+}
+function editTraining(i){
+  const t=trainings[i];
+  const d=prompt('Distancia en km:',String(t.distance));if(d===null)return;
+  const dist=Number(d);if(!Number.isFinite(dist)||dist<=0){toast('Distancia no válida.');return;}
+  const time=prompt('Tiempo total (mm:ss o hh:mm:ss):',t.time);if(time===null)return;
+  if(!Number.isFinite(parseTime(time))||parseTime(time)<=0){toast('Tiempo no válido.');return;}
+  t.distance=dist;t.time=time;saveHistory();renderTrainings();toast('Entrenamiento corregido.');
+}
+function deleteTraining(i){if(!confirm('¿Eliminar este entrenamiento del historial?'))return;trainings.splice(i,1);saveHistory();renderTrainings();toast('Entrenamiento eliminado.');}
+function addHistoryGoal(){
+  const date=$('historyGoalDate').value||new Date().toISOString().slice(0,10);
+  const distance=$('historyGoalDistance').value,time=$('historyGoalTime').value.trim();
+  const status=$('historyGoalStatus').value,notes=$('historyGoalNotes').value.trim();
+  if(!Number.isFinite(parseTime(time))||parseTime(time)<=0){toast('Ingresa un tiempo objetivo válido.');return;}
+  historyGoals.push({date,distance,time,status,notes});
+  historyGoals.sort((a,b)=>b.date.localeCompare(a.date));
+  saveHistory();renderHistoryGoals();toast('Objetivo guardado en tu historial.');
+  $('historyGoalTime').value='';$('historyGoalNotes').value='';
+}
+function renderHistoryGoals(){
+  const box=$('historyGoalList');
+  if(!historyGoals.length){box.className='empty';box.textContent='Todavía no has guardado objetivos.';return;}
+  box.className='';box.innerHTML='';
+  historyGoals.forEach((g,i)=>{
+    const el=document.createElement('div');el.className='zone';
+    el.innerHTML=`<div class="zbadge" style="background:#ff8a00">🎯</div><div class="desc"><strong>${escapeHtml(g.distance)} · ${escapeHtml(g.time)}</strong><small>${escapeHtml(g.date)} · ${escapeHtml(g.status)}${g.notes?' · '+escapeHtml(g.notes):''}</small></div><button class="btn secondary" onclick="editHistoryGoal(${i})">Editar</button><button class="btn secondary" onclick="deleteHistoryGoal(${i})">✕</button>`;
+    box.appendChild(el);
+  });
+}
+function editHistoryGoal(i){
+  const g=historyGoals[i];const t=prompt('Corrige el tiempo objetivo:',g.time);if(t===null)return;
+  if(!Number.isFinite(parseTime(t))||parseTime(t)<=0){toast('Tiempo objetivo no válido.');return;}
+  g.time=t;saveHistory();renderHistoryGoals();toast('Objetivo corregido.');
+}
+function deleteHistoryGoal(i){if(!confirm('¿Eliminar este objetivo del historial?'))return;historyGoals.splice(i,1);saveHistory();renderHistoryGoals();toast('Objetivo eliminado.');}
+
+
+function readPhotoFile(file){return new Promise(resolve=>{if(!file){resolve('');return}const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const max=1000,scale=Math.min(1,max/Math.max(img.width,img.height)),canvas=document.createElement('canvas');canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas.toDataURL('image/jpeg',0.78))};img.onerror=()=>resolve('');img.src=reader.result};reader.onerror=()=>resolve('');reader.readAsDataURL(file)});}
+function previewPhoto(input,id){const img=$(id);if(!input.files||!input.files[0]){img.style.display='none';return}const reader=new FileReader();reader.onload=()=>{img.src=reader.result;img.style.display='block'};reader.readAsDataURL(input.files[0]);}
+async function saveProfilePhoto(input){if(!input.files||!input.files[0])return;profile.photo=await readPhotoFile(input.files[0]);renderProfilePhoto();saveProfileData();}
+function renderProfilePhoto(){const p=$('profilePhotoPreview'),h=$('headerProfilePhoto');if(profile.photo){p.src=profile.photo;p.style.display='block';h.src=profile.photo;h.style.display='block';h.parentElement.textContent='';h.parentElement.appendChild(h)}else{p.removeAttribute('src');h.style.display='none';h.parentElement.textContent='🏃'}$('profileName').value=profile.name||'';$('profileCity').value=profile.city||'';}
+function saveProfile(){profile.name=$('profileName').value.trim();profile.city=$('profileCity').value.trim();saveProfileData();toast('Perfil guardado.');}
+function saveProfileData(){try{localStorage.setItem('jotarunn_profile',JSON.stringify(profile))}catch(e){toast('La foto es demasiado grande para guardar; intenta con otra imagen más pequeña.')}}
+function loadProfile(){try{profile=JSON.parse(localStorage.getItem('jotarunn_profile')||'{"name":"","city":"","photo":""}')}catch(e){profile={name:'',city:'',photo:''}}renderProfilePhoto()}
+async function addCompetition(){const name=$('compName').value.trim(),date=$('compDate').value,dist=$('compDistance').value,time=$('compTime').value.trim(),city=$('compCity').value.trim();if(!name||!date||!time){toast('Completa nombre, fecha y tiempo.');return}if(!Number.isFinite(parseTime(time))||parseTime(time)<=0){toast('Revisa el formato del tiempo.');return}const photo=await readPhotoFile($('compPhoto').files[0]);competitions.push({id:Date.now(),name,date,dist,time,city,photo});competitions.sort((a,b)=>b.date.localeCompare(a.date));saveCompetitions();renderCompetitions();$('compName').value='';$('compTime').value='';$('compCity').value='';$('compPhoto').value='';$('compPhotoPreview').style.display='none';toast('Competencia guardada en el historial.');}
+function saveCompetitions(){try{localStorage.setItem('jotarunn_competitions',JSON.stringify(competitions))}catch(e){toast('No se pudo guardar. Puede que el almacenamiento del navegador esté lleno por las fotos.')}}
+function loadCompetitions(){try{competitions=JSON.parse(localStorage.getItem('jotarunn_competitions')||'[]')}catch(e){competitions=[]}const years=[...new Set([String(new Date().getFullYear()),...competitions.map(c=>String(c.date).slice(0,4))])].sort((a,b)=>b-a);$('compYearFilter').innerHTML=years.map(y=>`<option value="${escapeAttr(y)}">${escapeHtml(y)}</option>`).join('');$('compDate').value=new Date().toISOString().slice(0,10);renderCompetitions()}
+function renderCompetitions(){if(!$('competitionList'))return;const year=$('compYearFilter').value||String(new Date().getFullYear()),list=competitions.filter(c=>c.date.slice(0,4)===year).sort((a,b)=>a.date.localeCompare(b.date));const stats=$('competitionStats');stats.innerHTML=`<span class="pill">${list.length} competencias en ${escapeHtml(year)}</span><span class="pill">${competitions.length} competencias total</span>`;const box=$('competitionList');if(!list.length){box.className='empty';box.textContent=`No hay competencias registradas en ${year}. Agrega tu primera arriba.`}else{box.className='';box.innerHTML='';list.forEach((c)=>{const pace=fmt(parseTime(c.time)/competitionDistance(c.dist));const el=document.createElement('div');el.className='card';el.innerHTML=`<strong>${escapeHtml(c.name)}</strong><div class="race-meta"><span class="pill">📅 ${escapeHtml(c.date)}</span><span class="pill">🏁 ${escapeHtml(c.dist)}</span><span class="pill">⏱️ ${escapeHtml(c.time)}</span><span class="pill">⚡ ${pace} min/km</span></div><small>${escapeHtml(c.city||'Ciudad no indicada')}</small>${c.photo?`<img class="competition-photo" src="${c.photo}" alt="Foto de ${escapeAttr(c.name)}">`:''}<div class="row" style="margin-top:10px"><button class="btn secondary" onclick="editCompetition(${c.id})">Editar tiempo</button><button class="btn secondary" onclick="deleteCompetition(${c.id})">Eliminar</button></div>`;box.appendChild(el)})}
+const bests={};competitions.forEach(c=>{const secs=parseTime(c.time);if(!Number.isFinite(secs)||c.dist==='Trail / otra')return;if(!bests[c.dist]||secs<parseTime(bests[c.dist].time))bests[c.dist]=c});const bb=$('competitionBests');if(!Object.keys(bests).length){bb.className='empty';bb.textContent='Tus mejores tiempos aparecerán al registrar competencias.'}else{bb.className='';bb.innerHTML='';Object.entries(bests).forEach(([d,c])=>{const el=document.createElement('div');el.className='zone';el.innerHTML=`<div class="zbadge" style="background:#ff8a00">🏅</div><div class="desc"><strong>${escapeHtml(d)} · ${escapeHtml(c.time)}</strong><small>${escapeHtml(c.name)} · ${escapeHtml(c.date)}</small></div>`;bb.appendChild(el)})}}
+function competitionDistance(d){return d==='5K'?5:d==='10K'?10:d==='Media maratón'?21.0975:d==='Maratón'?42.195:10}
+function editCompetition(id){const c=competitions.find(x=>x.id===id);if(!c)return;const t=prompt('Corrige el tiempo (mm:ss o hh:mm:ss):',c.time);if(t===null)return;if(!Number.isFinite(parseTime(t))||parseTime(t)<=0){toast('Tiempo inválido.');return}c.time=t;saveCompetitions();renderCompetitions();}
+function deleteCompetition(id){if(!confirm('¿Eliminar esta competencia?'))return;competitions=competitions.filter(c=>c.id!==id);saveCompetitions();renderCompetitions()}
+function downloadWorkoutCard(i){const t=trainings[i],sec=parseTime(t.time),pace=fmt(sec/t.distance),canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1350;const ctx=canvas.getContext('2d');ctx.fillStyle='#08090d';ctx.fillRect(0,0,1080,1350);const g=ctx.createLinearGradient(0,0,1080,1350);g.addColorStop(0,'#3b1c00');g.addColorStop(1,'#08090d');ctx.fillStyle=g;ctx.fillRect(0,0,1080,1350);ctx.fillStyle='#ff8a00';ctx.fillRect(70,80,18,110);ctx.fillStyle='#ffffff';ctx.font='bold 58px Arial';ctx.fillText('JOTARUNN',120,145);ctx.fillStyle='#b5b7c5';ctx.font='32px Arial';ctx.fillText((t.type||'ENTRENAMIENTO').toUpperCase(),75,255);ctx.fillStyle='#ffffff';ctx.font='bold 46px Arial';ctx.fillText(t.date,75,330);if(t.photo){const img=new Image();img.onload=()=>{ctx.save();const x=75,y=380,w=930,hh=390,scale=Math.max(w/img.width,hh/img.height),iw=img.width*scale,ih=img.height*scale;ctx.beginPath();ctx.roundRect(x,y,w,hh,24);ctx.clip();ctx.drawImage(img,x+(w-iw)/2,y+(hh-ih)/2,iw,ih);ctx.restore();drawWorkoutMetrics(ctx,t,pace);downloadCanvas(canvas,t.date)};img.src=t.photo}else{drawWorkoutMetrics(ctx,t,pace);downloadCanvas(canvas,t.date)}}
+function drawWorkoutMetrics(ctx,t,pace){ctx.fillStyle='#ff8a00';ctx.font='bold 34px Arial';ctx.fillText('DISTANCIA',75,850);ctx.fillText('TIEMPO',570,850);ctx.fillStyle='#ffffff';ctx.font='bold 68px Arial';ctx.fillText(Number(t.distance).toLocaleString('es-CL')+' km',75,930);ctx.fillText(t.time,570,930);ctx.fillStyle='#ff8a00';ctx.font='bold 34px Arial';ctx.fillText('RITMO MEDIO',75,1035);ctx.fillText('DESNIVEL +',570,1035);ctx.fillStyle='#ffffff';ctx.font='bold 60px Arial';ctx.fillText(pace+' /km',75,1110);ctx.fillText(Number(t.elevation||0)+' m',570,1110);ctx.fillStyle='#b5b7c5';ctx.font='26px Arial';ctx.fillText('Cada kilómetro cuenta.',75,1240)}
+function downloadCanvas(canvas,date){const a=document.createElement('a');a.download='jotarunn-entrenamiento-'+date+'.png';a.href=canvas.toDataURL('image/png');a.click();toast('Imagen del entrenamiento descargada.')}
+
+
+function loadSettings(){try{appSettings={...defaultSettings,...JSON.parse(localStorage.getItem('jotarunn_settings')||'{}')}}catch(e){appSettings={...defaultSettings}};Object.entries(appSettings).forEach(([key,value])=>{const el=$(key);if(el){if(el.type==='checkbox')el.checked=!!value;else el.value=value}})}
+function saveSettings(){const keys=Object.keys(defaultSettings);keys.forEach(key=>{const el=$(key);if(el)appSettings[key]=el.type==='checkbox'?el.checked:el.value});try{localStorage.setItem('jotarunn_settings',JSON.stringify(appSettings));toast('Configuración de privacidad guardada en este dispositivo.')}catch(e){toast('No se pudieron guardar los ajustes.')}}
+function resetSettings(){if(!confirm('¿Restablecer todos los ajustes de privacidad?'))return;appSettings={...defaultSettings};try{localStorage.setItem('jotarunn_settings',JSON.stringify(appSettings))}catch(e){}loadSettings();toast('Ajustes restablecidos.')}
+
+function watchInfo(name){toast(name+': la conexión real se incorporará en una siguiente etapa.')}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function escapeAttr(s){return escapeHtml(s)}
+$('raceDate').min=new Date().toISOString().slice(0,10);$('markDate').value=new Date().toISOString().slice(0,10);$('trainingDate').value=new Date().toISOString().slice(0,10);$('historyGoalDate').value=new Date().toISOString().slice(0,10);loadHistory();loadCompetitions();loadProfile();loadSettings();calculateZones();updateHome();buildPlan();
 </script>
-</body>
-</html>
+</body></html>
