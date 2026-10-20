@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#08090d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JotaRunn">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>JOTARUNN — Negro & Naranja</title>
 <style>
 :root{--bg:#0b1020;--panel:#151e30;--panel2:#202c40;--line:#2d3a50;--text:#f7f9fc;--muted:#a9b6ca;--lime:#b8ff35;--blue:#4b9cff;--orange:#ff914d;--purple:#a78bfa}
@@ -44,6 +50,16 @@ input:focus,select:focus{outline:2px solid #ff8a00}
 .competition-photo{width:100%;max-height:230px;object-fit:cover;border-radius:12px;margin-top:10px}
 .progress-stat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.progress-stat .pill{display:block;text-align:center}
 .share-canvas{width:100%;border-radius:14px;border:1px solid #383838;margin-top:10px}
+
+/* Calculadora de ritmo por distancia y tiempo */
+#pacecalc .eyebrow{color:#42e695}#pacecalc .card{border-left:3px solid #42e695}
+.pace-result{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.pace-metric{background:#0c1018;border:1px solid #34343e;border-radius:15px;padding:15px;min-width:0}
+.pace-metric small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.7px}
+.pace-metric strong{display:block;font-size:clamp(23px,6vw,34px);line-height:1.25;margin-top:6px;color:#42e695;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.pace-history-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.pace-history-item:last-child{border-bottom:0}.pace-history-item .ph-main{flex:1;min-width:0}.pace-history-item strong{display:block}.pace-history-item small{display:block;color:var(--muted);margin-top:3px}.pace-history-item .ph-pace{font-weight:900;color:#42e695;white-space:nowrap}.pace-history-item button{padding:7px 9px;font-size:12px}
+@media(max-width:360px){.pace-result{grid-template-columns:1fr}.pace-history-item{flex-wrap:wrap}}
+
 </style>
 </head>
 <body>
@@ -73,6 +89,7 @@ input:focus,select:focus{outline:2px solid #ff8a00}
     <button class="tile" onclick="showSection('profile')"><span class="emoji">👤</span><strong>Mi perfil</strong><small>Foto y datos del corredor</small></button>
     <button class="tile" onclick="showSection('settings')"><span class="emoji">⚙️</span><strong>Configuración y privacidad</strong><small>Controla quién puede ver tus datos y cómo interactuar</small></button>
     <button class="tile" onclick="showSection('plan')"><span class="emoji">🧮</span><strong>Planificar carrera</strong><small>Define el ritmo de cada kilómetro</small></button>
+    <button class="tile" onclick="showSection('pacecalc')"><span class="emoji">⏱️</span><strong>Calculadora de ritmo</strong><small>Calcula min/km según distancia y tiempo</small></button>
   </div>
 </section>
 
@@ -86,6 +103,28 @@ input:focus,select:focus{outline:2px solid #ff8a00}
     <button class="btn full" onclick="calculateZones()">Calcular mis zonas</button>
   </div>
   <div class="card"><div class="row" style="align-items:flex-start"><div><h2 style="margin-bottom:3px">Zonas de ritmo</h2><div class="tiny" id="zoneBasis">Basado en tu último tiempo de competencia</div></div><span class="pill">min/km</span></div><div id="zonesResult"></div><p class="footnote">Rangos orientativos calculados desde el ritmo medio de la marca elegida; cada zona muestra su rango y el ritmo promedio recomendado. Ajusta por sensación, terreno, clima y condición física: una marca por sí sola no determina zonas exactas.</p></div>
+</section>
+
+<section id="pacecalc" class="section">
+  <div class="eyebrow">RITMO PARA TU OBJETIVO</div>
+  <h1>Calculadora de ritmo</h1>
+  <p>Elige la distancia y escribe el tiempo total que quieres lograr. RUN ZONES calculará el ritmo promedio por kilómetro que necesitas mantener.</p>
+  <div class="card">
+    <label for="paceDistance">Distancia de carrera</label>
+    <select id="paceDistance" onchange="toggleCustomPaceDistance()">
+      <option value="0.4">400 metros</option><option value="1">1 kilómetro</option><option value="5">5 kilómetros</option><option value="10" selected>10 kilómetros</option><option value="21.0975">Medio maratón (21,1 km)</option><option value="42.195">Maratón (42,2 km)</option><option value="custom">Otra distancia</option>
+    </select>
+    <div id="customPaceDistanceWrap" style="display:none"><label for="customPaceDistance">Distancia en kilómetros</label><input id="customPaceDistance" type="number" min="0.01" step="0.01" placeholder="Ej. 15" inputmode="decimal"></div>
+    <label for="paceTargetTime">Tiempo total objetivo (hh:mm:ss o mm:ss)</label>
+    <input id="paceTargetTime" type="text" inputmode="numeric" placeholder="Ej. 00:50:00 o 50:00" autocomplete="off">
+    <button class="btn full" onclick="calculateTargetPace()">Calcular ritmo</button>
+    <div id="paceCalcResult" aria-live="polite"><div class="empty">Ingresa la distancia y el tiempo objetivo para ver el ritmo necesario.</div></div>
+    <p class="footnote">El ritmo mostrado es un promedio por kilómetro. En carrera, el ritmo real puede variar por desnivel, clima, curvas y estrategia de salida.</p>
+  </div>
+  <div class="card">
+    <div class="row" style="align-items:center"><h2 style="margin:0">Historial de cálculos</h2><button class="btn secondary" onclick="clearPaceHistory()" style="flex:0 0 auto;padding:9px 10px">Borrar</button></div>
+    <div id="paceCalcHistory" style="margin-top:10px"><div class="empty">Tus cálculos guardados aparecerán aquí.</div></div>
+  </div>
 </section>
 
 <section id="plan" class="section">
@@ -200,6 +239,7 @@ input:focus,select:focus{outline:2px solid #ff8a00}
 <nav class="nav"><div class="navinner">
 <button class="active" data-section="home" onclick="showSection('home')"><span>⌂</span>Inicio</button>
 <button data-section="zones" onclick="showSection('zones')"><span>⚡</span>Zonas</button>
+<button data-section="pacecalc" onclick="showSection('pacecalc')"><span>⏱️</span>Ritmo</button>
 <button data-section="races" onclick="showSection('races')"><span>🏁</span>Carreras</button>
 <button data-section="progress" onclick="showSection('progress')"><span>▥</span>Progreso</button>
 <button data-section="history" onclick="showSection('history')"><span>📚</span>Historial</button>
@@ -215,7 +255,7 @@ let mode='current', races=[], marks=[], trainings=[], historyGoals=[], competiti
 const defaultSettings={profileVisibility:'public',workoutVisibility:'friends',competitionVisibility:'friends',photoVisibility:'friends',allowFriendRequests:true,autoAcceptFriends:false,discoverable:true,friendNotifications:true,trainingReminders:true};
 let appSettings={...defaultSettings};
 function toast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
-function showSection(id){document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.section===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='zones')calculateZones();if(id==='competitions')renderCompetitions();if(id==='settings')loadSettings()}
+function showSection(id){document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.section===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='zones')calculateZones();if(id==='pacecalc')renderPaceHistory();if(id==='competitions')renderCompetitions();if(id==='settings')loadSettings()}
 function setMode(m){mode=m;$('modeCurrent').classList.toggle('active',m==='current');$('modeGoal').classList.toggle('active',m==='goal');$('currentFields').style.display=m==='current'?'block':'none';$('goalFields').style.display=m==='goal'?'block':'none';$('zoneBasis').textContent=m==='current'?'Basado en tu último tiempo de competencia':'Basado en el ritmo de tu objetivo';calculateZones()}
 function syncGoalDistance(){$('distance').value=$('goalDistance').value}
 function parseTime(s){if(!s)return NaN;let a=s.trim().split(':').map(Number);if(a.some(x=>!Number.isFinite(x)||x<0))return NaN;if(a.length===2)return a[0]*60+a[1];if(a.length===3)return a[0]*3600+a[1]*60+a[2];return NaN}
@@ -427,9 +467,30 @@ function loadSettings(){try{appSettings={...defaultSettings,...JSON.parse(localS
 function saveSettings(){const keys=Object.keys(defaultSettings);keys.forEach(key=>{const el=$(key);if(el)appSettings[key]=el.type==='checkbox'?el.checked:el.value});try{localStorage.setItem('jotarunn_settings',JSON.stringify(appSettings));toast('Configuración de privacidad guardada en este dispositivo.')}catch(e){toast('No se pudieron guardar los ajustes.')}}
 function resetSettings(){if(!confirm('¿Restablecer todos los ajustes de privacidad?'))return;appSettings={...defaultSettings};try{localStorage.setItem('jotarunn_settings',JSON.stringify(appSettings))}catch(e){}loadSettings();toast('Ajustes restablecidos.')}
 
+let paceCalculations=[];
+function toggleCustomPaceDistance(){const custom=$('paceDistance').value==='custom';$('customPaceDistanceWrap').style.display=custom?'block':'none'}
+function formatRaceTime(totalSeconds){totalSeconds=Math.round(totalSeconds);const h=Math.floor(totalSeconds/3600),m=Math.floor((totalSeconds%3600)/60),sec=totalSeconds%60;return h>0?`${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`:`${m}:${String(sec).padStart(2,'0')}`}
+function paceDistanceKm(){const raw=$('paceDistance').value;const km=raw==='custom'?Number($('customPaceDistance').value):Number(raw);return Number.isFinite(km)&&km>0?km:NaN}
+function calculateTargetPace(){
+  const km=paceDistanceKm(),total=parseTime($('paceTargetTime').value),box=$('paceCalcResult');
+  if(!Number.isFinite(km)||km<=0){box.innerHTML='<div class="empty">Ingresa una distancia válida mayor que cero.</div>';return}
+  if(!Number.isFinite(total)||total<=0){box.innerHTML='<div class="empty">Escribe un tiempo válido, por ejemplo 50:00 o 1:45:00.</div>';return}
+  const pace=total/km, speed=3600/pace, paceText=fmt(pace), timeText=formatRaceTime(total);
+  box.innerHTML=`<div class="pace-result"><div class="pace-metric"><small>Ritmo necesario</small><strong>${paceText} <span style="font-size:13px">min/km</span></strong></div><div class="pace-metric"><small>Velocidad media</small><strong>${speed.toFixed(2).replace('.',',')} <span style="font-size:13px">km/h</span></strong></div></div><div class="race-meta" style="margin-top:12px"><span class="pill">Distancia: ${km.toLocaleString('es-CL',{maximumFractionDigits:3})} km</span><span class="pill">Tiempo objetivo: ${timeText}</span></div>`;
+  const entry={id:Date.now(),km,time:timeText,pace:paceText,speed:speed.toFixed(2),date:new Date().toLocaleDateString('es-CL')};
+  try{paceCalculations=JSON.parse(localStorage.getItem('jotarunn_pace_calculations')||'[]')}catch(e){paceCalculations=[]}
+  paceCalculations.unshift(entry);paceCalculations=paceCalculations.slice(0,20);
+  try{localStorage.setItem('jotarunn_pace_calculations',JSON.stringify(paceCalculations))}catch(e){}
+  renderPaceHistory();
+}
+function renderPaceHistory(){const box=$('paceCalcHistory');if(!box)return;try{paceCalculations=JSON.parse(localStorage.getItem('jotarunn_pace_calculations')||'[]')}catch(e){paceCalculations=[]}if(!paceCalculations.length){box.innerHTML='<div class="empty">Tus cálculos guardados aparecerán aquí.</div>';return}box.innerHTML='';paceCalculations.forEach(x=>{const row=document.createElement('div');row.className='pace-history-item';row.innerHTML=`<div class="ph-main"><strong>${escapeHtml(String(x.km).replace('.',','))} km · ${escapeHtml(x.time)}</strong><small>${escapeHtml(x.date)} · ${escapeHtml(x.speed)} km/h</small></div><div class="ph-pace">${escapeHtml(x.pace)} /km</div><button class="btn secondary" onclick="deletePaceCalculation(${Number(x.id)})" aria-label="Eliminar cálculo">✕</button>`;box.appendChild(row)})}
+function deletePaceCalculation(id){paceCalculations=paceCalculations.filter(x=>x.id!==id);try{localStorage.setItem('jotarunn_pace_calculations',JSON.stringify(paceCalculations))}catch(e){}renderPaceHistory()}
+function clearPaceHistory(){if(!confirm('¿Borrar el historial de cálculos de ritmo?'))return;paceCalculations=[];try{localStorage.removeItem('jotarunn_pace_calculations')}catch(e){}renderPaceHistory();toast('Historial de cálculos borrado.')}
+
 function watchInfo(name){toast(name+': la conexión real se incorporará en una siguiente etapa.')}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function escapeAttr(s){return escapeHtml(s)}
-$('raceDate').min=new Date().toISOString().slice(0,10);$('markDate').value=new Date().toISOString().slice(0,10);$('trainingDate').value=new Date().toISOString().slice(0,10);$('historyGoalDate').value=new Date().toISOString().slice(0,10);loadHistory();loadCompetitions();loadProfile();loadSettings();calculateZones();updateHome();buildPlan();
+$('raceDate').min=new Date().toISOString().slice(0,10);$('markDate').value=new Date().toISOString().slice(0,10);$('trainingDate').value=new Date().toISOString().slice(0,10);$('historyGoalDate').value=new Date().toISOString().slice(0,10);loadHistory();loadCompetitions();loadProfile();loadSettings();calculateZones();updateHome();buildPlan();renderPaceHistory();
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => console.log('Service worker no disponible', err))); }
 </script>
 </body></html>
